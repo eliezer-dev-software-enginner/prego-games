@@ -7,23 +7,11 @@ import {
   FieldGroup,
   FieldLabel,
   FieldLegend,
-  FieldSeparator,
   FieldSet,
 } from '@/components/ui/field';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { useEffect, useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 
 export default function Page() {
   const [roms, setRoms] = useState([]);
@@ -42,6 +30,21 @@ export default function Page() {
           <li key={rom.id}>{rom.titulo}</li>
         ))}
       </ul>
+
+      <FieldSet>
+        <FieldLegend>Profile</FieldLegend>
+        <FieldDescription>
+          This appears on invoices and emails.
+        </FieldDescription>
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor='title'>Título</FieldLabel>
+            <Input id='title' autoComplete='off' aria-invalid />
+            <FieldLabel htmlFor='title'>Descrição</FieldLabel>
+            <Input id='title' autoComplete='off' aria-invalid />
+          </Field>
+        </FieldGroup>
+      </FieldSet>
     </div>
   );
 }
