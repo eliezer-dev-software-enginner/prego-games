@@ -22,7 +22,7 @@ export default function Page() {
       body: JSON.stringify({ idToken }),
     });
 
-    router.push('/packs');
+    router.push('/admin/roms');
   }
 
   return (
