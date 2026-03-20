@@ -14,7 +14,7 @@ import { storage } from '@/app/config/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-type Rom = {
+export type Rom = {
   id: string;
   titulo: string;
   descricao: string;
