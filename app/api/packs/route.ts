@@ -4,10 +4,6 @@ import { adminDb } from '@/app/config/firebase-admin';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const admin = await verifyAdmin();
-  if (!admin)
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
   const snapshot = await adminDb.collection('apps/prego-games/packs').get();
   const roms = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 

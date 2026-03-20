@@ -1,42 +1,240 @@
-// app/roms/page.tsx
+'use client';
 
-import { adminAuth, adminDb } from '@/app/config/firebase-admin';
+import { User, onAuthStateChanged, signOut } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { auth } from '@/app/config/firebase';
+import { useRouter } from 'next/navigation';
+import { Pack } from '../admin/packs/page';
+import styles from './page.module.css';
 
-export default async function Page() {
-  const session = (await cookies()).get('session');
-
-  if (!session) redirect('/auth/login');
-
-  try {
-    // verifica se o token ainda é válido
-    await adminAuth.verifyIdToken(session.value);
-  } catch {
-    redirect('/auth/login');
-  }
-
-  const snapshot = await adminDb.collection('apps/prego-games/roms').get();
-  const roms = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
+function SkeletonCard() {
   return (
-    <div>
-      <h1>Jogos</h1>
-      <ul>
-        {roms.map((rom: any) => (
-          <li key={rom.id}>
-            <h2>{rom.titulo}</h2>
-            <p>{rom.descricao}</p>
-          </li>
-        ))}
-      </ul>
+    <div className={styles.skeleton}>
+      <div className={styles.skeletonCover} />
+      <div className={styles.skeletonBody}>
+        <div className={`${styles.skeletonLine} ${styles.medium}`} />
+        <div className={`${styles.skeletonLine} ${styles.long}`} />
+        <div className={`${styles.skeletonLine} ${styles.short}`} />
+      </div>
     </div>
   );
 }
 
-// O fluxo completo agora está fechado:
+export default function Page() {
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [packs, setPacks] = useState<Pack[]>([]);
+  const [ownedIds, setOwnedIds] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPack, setSelectedPack] = useState<Pack | null>(null);
+  const [buying, setBuying] = useState(false);
 
-// login → signInWithPopup → idToken
-//       → POST /api/auth/login → verifyIdToken → cookie httpOnly
-//       → /roms → verifyIdToken(cookie) → busca Firestore → renderiza
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      if (!u) {
+        router.push('/auth/login');
+        return;
+      }
+      setUser(u);
+    });
+    return () => unsubscribe();
+  }, [router]);
+
+  useEffect(() => {
+    if (!user) return;
+    fetchPacks();
+    //fetchOwned();
+  }, [user]);
+
+  async function fetchPacks() {
+    try {
+      const res = await fetch('/api/packs');
+      const data = await res.json();
+      setPacks(data);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function fetchOwned() {
+    const res = await fetch('/api/user/packs');
+    const data = await res.json();
+    setOwnedIds(data.map((p: Pack) => p.id));
+  }
+
+  async function handleBuy() {
+    if (!selectedPack) return;
+    setBuying(true);
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ packId: selectedPack.id }),
+      });
+      const { url } = await res.json();
+      if (url) window.location.href = url; // redireciona para checkout (Stripe/MP)
+    } catch {
+      alert('Erro ao iniciar compra. Tente novamente.');
+    } finally {
+      setBuying(false);
+    }
+  }
+
+  async function handleLogout() {
+    await signOut(auth);
+    router.push('/auth/login');
+  }
+
+  return (
+    <div className={styles.root}>
+      {/* Header */}
+      <header className={styles.header}>
+        <a href='/' className={styles.logo}>
+          Prego<span className={styles.logoAccent}>.</span>Games
+        </a>
+        <div className={styles.headerRight}>
+          {user && (
+            <div className={styles.userInfo}>
+              {user.photoURL ? (
+                <img
+                  src={user.photoURL}
+                  alt={user.displayName ?? ''}
+                  className={styles.userAvatar}
+                />
+              ) : (
+                <div className={styles.userAvatarPlaceholder}>👤</div>
+              )}
+              <span className={styles.userName}>
+                {user.displayName?.split(' ')[0]}
+              </span>
+            </div>
+          )}
+          <button className={styles.btnLogout} onClick={handleLogout}>
+            Sair
+          </button>
+        </div>
+      </header>
+
+      {/* Page hero */}
+      <div className={styles.pageHero}>
+        <p className={styles.pageLabel}>Biblioteca</p>
+        <h1 className={styles.pageTitle}>Packs de jogos</h1>
+        <p className={styles.pageDesc}>
+          Escolha um pack e tenha acesso imediato à coleção completa de jogos.
+        </p>
+      </div>
+
+      {/* Grid */}
+      <div className={styles.container}>
+        {loading ? (
+          <div className={styles.loadingGrid}>
+            {[...Array(3)].map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        ) : packs.length === 0 ? (
+          <div className={styles.empty}>
+            <div className={styles.emptyIcon}>🕹️</div>
+            <p className={styles.emptyText}>
+              Nenhum pack disponível no momento.
+            </p>
+          </div>
+        ) : (
+          <div className={styles.grid}>
+            {packs.map((pack) => {
+              const owned = ownedIds.includes(pack.id);
+              return (
+                <div key={pack.id} className={styles.card}>
+                  {pack.capaRef ? (
+                    <img
+                      src={pack.capaRef}
+                      alt={pack.titulo}
+                      className={styles.cardCover}
+                    />
+                  ) : (
+                    <div className={styles.cardCoverPlaceholder}>🎮</div>
+                  )}
+                  <div className={styles.cardBody}>
+                    <h2 className={styles.cardTitle}>{pack.titulo}</h2>
+                    <p className={styles.cardDesc}>{pack.descricao}</p>
+                    <div className={styles.cardFooter}>
+                      <div className={styles.cardMeta}>
+                        <span className={styles.cardCount}>
+                          {pack.gamesIds?.length ?? 0} jogos
+                        </span>
+                        {owned && (
+                          <span className={styles.cardOwned}>✓ Adquirido</span>
+                        )}
+                      </div>
+                      {owned ? (
+                        <span className={styles.btnOwned}>
+                          ✓ Você tem este pack
+                        </span>
+                      ) : (
+                        <button
+                          className={styles.btnBuy}
+                          onClick={() => setSelectedPack(pack)}
+                        >
+                          Comprar pack
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Modal de confirmação de compra */}
+      {selectedPack && (
+        <div className={styles.overlay} onClick={() => setSelectedPack(null)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            {selectedPack.capaRef ? (
+              <img
+                src={selectedPack.capaRef}
+                alt={selectedPack.titulo}
+                className={styles.modalCover}
+              />
+            ) : (
+              <div className={styles.modalCoverPlaceholder}>🎮</div>
+            )}
+            <div className={styles.modalBody}>
+              <h2 className={styles.modalTitle}>{selectedPack.titulo}</h2>
+              <p className={styles.modalDesc}>{selectedPack.descricao}</p>
+              <div className={styles.modalInfo}>
+                <div className={styles.modalInfoItem}>
+                  <span className={styles.modalInfoLabel}>Jogos incluídos</span>
+                  <span className={styles.modalInfoValue}>
+                    {selectedPack.gamesIds?.length ?? 0}
+                  </span>
+                </div>
+                <div className={styles.modalInfoItem}>
+                  <span className={styles.modalInfoLabel}>Acesso</span>
+                  <span className={styles.modalInfoValue}>Vitalício</span>
+                </div>
+              </div>
+              <div className={styles.modalActions}>
+                <button
+                  className={styles.btnCancel}
+                  onClick={() => setSelectedPack(null)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className={styles.btnConfirm}
+                  onClick={handleBuy}
+                  disabled={buying}
+                >
+                  {buying ? 'Aguarde...' : 'Confirmar compra'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
