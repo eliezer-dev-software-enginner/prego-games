@@ -54,7 +54,7 @@ export default async function Home() {
             <p className={styles.sectionLabel}>Coleções</p>
             <h2 className={styles.sectionTitle}>Packs disponíveis</h2>
           </div>
-          <Link href='/auth/login' className={styles.btnPrimary}>
+          <Link href='/packs' className={styles.btnPrimary}>
             Acessar biblioteca
           </Link>
         </div>

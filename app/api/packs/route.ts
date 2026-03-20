@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     titulo: body.titulo,
     descricao: body.descricao,
     capaRef: body.capaRef,
-    gamesId: body.gamesIds,
+    gamesIds: body.gamesIds,
   });
 
   return NextResponse.json({ id: ref.id }, { status: 201 });
