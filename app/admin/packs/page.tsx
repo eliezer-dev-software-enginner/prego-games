@@ -21,12 +21,14 @@ export type Pack = {
   descricao: string;
   gamesIds: string[];
   capaRef: string;
+  preco: number;
 };
 
 export default function Page() {
   const [roms, setRoms] = useState<Rom[]>([]);
   const [packs, setPacks] = useState<Pack[]>([]);
   const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('10');
   const [description, setDescription] = useState('');
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [gamesIds, setGamesIds] = useState<string[]>([]);
@@ -107,6 +109,7 @@ export default function Page() {
         descricao: description,
         capaRef: capaRef ?? '',
         gamesIds,
+        preco: Number(price),
       };
 
       const res = await fetch(url, {

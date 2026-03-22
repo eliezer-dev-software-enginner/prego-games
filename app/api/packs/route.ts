@@ -19,12 +19,7 @@ export async function POST(req: Request) {
 
   console.log('body: ' + body);
 
-  const ref = await adminDb.collection('apps/prego-games/packs').add({
-    titulo: body.titulo,
-    descricao: body.descricao,
-    capaRef: body.capaRef,
-    gamesIds: body.gamesIds,
-  });
+  const ref = await adminDb.collection('apps/prego-games/packs').add(body);
 
   return NextResponse.json({ id: ref.id }, { status: 201 });
 }
