@@ -30,6 +30,8 @@ export default function Page() {
   const [selectedPack, setSelectedPack] = useState<Pack | null>(null);
   const [buying, setBuying] = useState(false);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       if (!u) {
@@ -44,8 +46,14 @@ export default function Page() {
   useEffect(() => {
     if (!user) return;
     fetchPacks();
+    checkIfAdmin();
     //fetchOwned();
   }, [user]);
+
+  async function checkIfAdmin() {
+    const res = await fetch('/api/admin');
+    setIsAdmin(res.status === 200);
+  }
 
   async function fetchPacks() {
     try {
@@ -119,6 +127,16 @@ export default function Page() {
       {/* Page hero */}
       <div className={styles.pageHero}>
         <p className={styles.pageLabel}>Biblioteca</p>
+        {isAdmin && (
+          <button
+            onClick={() => {
+              router.push('admin/packs');
+            }}
+          >
+            Ir para Packs/Admin
+          </button>
+        )}
+
         <h1 className={styles.pageTitle}>Packs de jogos</h1>
         <p className={styles.pageDesc}>
           Escolha um pack e tenha acesso imediato à coleção completa de jogos.

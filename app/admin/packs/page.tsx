@@ -201,6 +201,16 @@ export default function Page() {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Field>
+
+            <Field>
+              <FieldLabel htmlFor='price'>Preço</FieldLabel>
+              <Input
+                id='price'
+                autoComplete='off'
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </Field>
             <Field>
               <FieldLabel htmlFor='cover'>Capa do pack</FieldLabel>
               <Input
