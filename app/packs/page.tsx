@@ -35,7 +35,7 @@ export default function Page() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       if (!u) {
-        router.push('/auth/login');
+        router.push('/auth');
         return;
       }
       setUser(u);
@@ -91,7 +91,7 @@ export default function Page() {
 
   async function handleLogout() {
     await signOut(auth);
-    router.push('/auth/login');
+    router.push('/auth');
   }
 
   return (

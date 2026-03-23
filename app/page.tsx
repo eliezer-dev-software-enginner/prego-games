@@ -34,7 +34,7 @@ export default async function Home() {
           <a href='#packs' className={styles.btnPrimary}>
             Ver packs
           </a>
-          <Link href='/auth/login' className={styles.btnSecondary}>
+          <Link href='/auth' className={styles.btnSecondary}>
             Entrar
           </Link>
         </div>
@@ -69,11 +69,7 @@ export default async function Home() {
         ) : (
           <div className={styles.packsGrid}>
             {packs.map((pack) => (
-              <Link
-                href='/auth/login'
-                key={pack.id}
-                className={styles.packCard}
-              >
+              <Link href='/auth' key={pack.id} className={styles.packCard}>
                 {pack.capaRef ? (
                   <img
                     src={pack.capaRef}

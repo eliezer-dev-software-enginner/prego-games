@@ -8,13 +8,13 @@ import { redirect } from 'next/navigation';
 export default async function Page() {
   const session = (await cookies()).get('session');
 
-  if (!session) redirect('/auth/login');
+  if (!session) redirect('/auth');
 
   try {
     // verifica se o token ainda é válido
     await adminAuth.verifyIdToken(session.value);
   } catch {
-    redirect('/auth/login');
+    redirect('/auth');
   }
 
   const snapshot = await adminDb.collection('apps/prego-games/roms').get();
@@ -38,5 +38,5 @@ export default async function Page() {
 // O fluxo completo agora está fechado:
 
 // login → signInWithPopup → idToken
-//       → POST /api/auth/login → verifyIdToken → cookie httpOnly
+//       → POST /api/auth → verifyIdToken → cookie httpOnly
 //       → /roms → verifyIdToken(cookie) → busca Firestore → renderiza

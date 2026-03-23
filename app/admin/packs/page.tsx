@@ -14,6 +14,7 @@ import { storage } from '@/app/config/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Rom } from '../roms/page';
+import s from './page.module.css';
 
 export type Pack = {
   id: string;
@@ -27,9 +28,11 @@ export type Pack = {
 export default function Page() {
   const [roms, setRoms] = useState<Rom[]>([]);
   const [packs, setPacks] = useState<Pack[]>([]);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('Lorem Ipsum');
   const [price, setPrice] = useState('10');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum est ut ultrices aliquam. Etiam ultrices nibh quis fermentum facilisis. Morbi tincidunt faucibus placerat. Morbi fermentum commodo leo, non egestas lorem sagittis eget. Nulla eget turpis hendrerit, pulvinar orci sit amet, eleifend eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at nunc non nibh blandit semper at eu diam.',
+  );
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [gamesIds, setGamesIds] = useState<string[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -41,13 +44,13 @@ export default function Page() {
   }, []);
 
   async function fetchRoms() {
-    const res = await fetch('/api/admin/roms');
+    const res = await fetch('/api/roms');
     const data = await res.json();
     setRoms(data);
   }
 
   async function fetchPacks() {
-    const res = await fetch('/api/admin/packs');
+    const res = await fetch('/api/packs');
     const data = await res.json();
     setPacks(data);
   }
@@ -99,9 +102,7 @@ export default function Page() {
       }
 
       const method = editingId ? 'PUT' : 'POST';
-      const url = editingId
-        ? `/api/admin/packs/${editingId}`
-        : '/api/admin/packs';
+      const url = editingId ? `/api/packs/${editingId}` : '/api/packs';
 
       const payload: Pack = {
         id: editingId ?? '',
@@ -141,7 +142,7 @@ export default function Page() {
   async function handleDelete(id: string) {
     if (!confirm('Deseja excluir este pack?')) return;
     try {
-      const res = await fetch(`/api/admin/packs/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/packs/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Erro ao excluir');
       await fetchPacks();
     } catch (e: any) {
@@ -162,15 +163,7 @@ export default function Page() {
       }}
     >
       {/* Formulário */}
-      <div
-        style={{
-          background: '#18181b',
-          border: '1px solid #27272a',
-          borderRadius: '12px',
-          padding: '24px',
-          marginBottom: '40px',
-        }}
-      >
+      <div className={s.form_container}>
         <FieldSet>
           <FieldLegend
             style={{
