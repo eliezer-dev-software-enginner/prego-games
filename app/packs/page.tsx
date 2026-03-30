@@ -21,6 +21,8 @@ function SkeletonCard() {
   );
 }
 
+//TODO: Gerar chave pix
+//TODO: Processar pagamento
 export default function Page() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);

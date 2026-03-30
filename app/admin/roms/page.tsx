@@ -1,3 +1,5 @@
+//#app/admin/roms/page.tsx
+
 'use client';
 
 import {
@@ -7,7 +9,7 @@ import {
   FieldLegend,
   FieldSet,
 } from '@/components/ui/field';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 
 import { storage } from '@/app/config/firebase';
@@ -31,12 +33,15 @@ export default function Page() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const [coverProgress, setCoverProgress] = useState<number | null>(null);
+  const [romProgress, setRomProgress] = useState<number | null>(null);
+
   useEffect(() => {
     fetchRoms();
   }, []);
 
   async function fetchRoms() {
-    const res = await fetch('/api/admin/roms');
+    const res = await fetch('/api/roms');
     const data = await res.json();
     setRoms(data);
   }
@@ -55,12 +60,31 @@ export default function Page() {
     setDescription('');
     setCoverFile(null);
     setRomFile(null);
+    setCoverProgress(null);
+    setRomProgress(null);
   }
 
-  async function uploadFile(file: File, path: string): Promise<string> {
-    const storageRef = ref(storage, path);
-    await uploadBytes(storageRef, file);
-    return getDownloadURL(storageRef);
+  function uploadFile(
+    file: File,
+    path: string,
+    onProgress: (pct: number) => void,
+  ): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const storageRef = ref(storage, path);
+      const task = uploadBytesResumable(storageRef, file);
+
+      task.on(
+        'state_changed',
+        (snap) => {
+          const pct = Math.round(
+            (snap.bytesTransferred / snap.totalBytes) * 100,
+          );
+          onProgress(pct);
+        },
+        reject,
+        async () => resolve(await getDownloadURL(task.snapshot.ref)),
+      );
+    });
   }
 
   async function handleSaveUpdate() {
@@ -80,17 +104,23 @@ export default function Page() {
         : '';
 
       if (coverFile) {
-        capaRef = await uploadFile(coverFile, `roms/covers/${title}`);
+        capaRef = await uploadFile(
+          coverFile,
+          `roms/covers/${title}`,
+          setCoverProgress,
+        );
       }
 
       if (romFile) {
-        pathRef = await uploadFile(romFile, `roms/files/${title}`);
+        pathRef = await uploadFile(
+          romFile,
+          `roms/files/${title}`,
+          setRomProgress,
+        );
       }
 
       const method = editingId ? 'PUT' : 'POST';
-      const url = editingId
-        ? `/api/admin/roms/${editingId}`
-        : '/api/admin/roms';
+      const url = editingId ? `/api/roms/${editingId}` : '/api/roms';
 
       const res = await fetch(url, {
         method,
@@ -118,7 +148,7 @@ export default function Page() {
     if (!confirm('Deseja excluir este jogo?')) return;
 
     try {
-      const res = await fetch(`/api/admin/roms/${id}`, { method: 'DELETE' });
+      const res = await fetch(`/api/roms/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Erro ao excluir');
       await fetchRoms();
     } catch (e: any) {
@@ -128,6 +158,46 @@ export default function Page() {
 
   return (
     <div>
+      {loading && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {coverProgress !== null && (
+            <div>
+              <span style={{ fontSize: 12 }}>Capa: {coverProgress}%</span>
+              <div
+                style={{ height: 6, background: '#e5e7eb', borderRadius: 99 }}
+              >
+                <div
+                  style={{
+                    height: '100%',
+                    width: `${coverProgress}%`,
+                    background: coverProgress === 100 ? '#1D9E75' : '#378ADD',
+                    borderRadius: 99,
+                    transition: 'width 0.2s',
+                  }}
+                />
+              </div>
+            </div>
+          )}
+          {romProgress !== null && (
+            <div>
+              <span style={{ fontSize: 12 }}>Arquivo: {romProgress}%</span>
+              <div
+                style={{ height: 6, background: '#e5e7eb', borderRadius: 99 }}
+              >
+                <div
+                  style={{
+                    height: '100%',
+                    width: `${romProgress}%`,
+                    background: romProgress === 100 ? '#1D9E75' : '#378ADD',
+                    borderRadius: 99,
+                    transition: 'width 0.2s',
+                  }}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
       <FieldSet>
         <FieldLegend>{editingId ? 'Atualizar jogo' : 'Criar jogo'}</FieldLegend>
         <FieldGroup>

@@ -1,4 +1,4 @@
-// app/api/auth/route.ts
+// app/api/auth/login/route.ts
 
 import { adminAuth, adminDb } from '@/app/config/firebase-admin';
 
