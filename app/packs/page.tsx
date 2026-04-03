@@ -1,3 +1,5 @@
+//app/packs/page.tsx
+
 'use client';
 
 import { User, onAuthStateChanged, signOut } from 'firebase/auth';
@@ -49,7 +51,7 @@ export default function Page() {
     if (!user) return;
     fetchPacks();
     checkIfAdmin();
-    //fetchOwned();
+    fetchOwned();
   }, [user]);
 
   async function checkIfAdmin() {
@@ -70,7 +72,7 @@ export default function Page() {
   async function fetchOwned() {
     const res = await fetch('/api/user/packs');
     const data = await res.json();
-    setOwnedIds(data.map((p: Pack) => p.id));
+    setOwnedIds(data.map((p: { packId: string }) => p.packId));
   }
 
   async function handleBuy() {
@@ -82,14 +84,38 @@ export default function Page() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ packId: selectedPack.id }),
       });
-      const { url } = await res.json();
-      if (url) window.location.href = url; // redireciona para checkout (Stripe/MP)
-    } catch {
-      alert('Erro ao iniciar compra. Tente novamente.');
+
+      if (!res.ok) {
+        const { error } = await res.json();
+        throw new Error(error);
+      }
+
+      setSelectedPack(null);
+      await fetchOwned(); // atualiza os packs adquiridos na tela
+    } catch (e: any) {
+      alert(e.message);
     } finally {
       setBuying(false);
     }
   }
+
+  // async function handleBuy() {
+  //   if (!selectedPack) return;
+  //   setBuying(true);
+  //   try {
+  //     const res = await fetch('/api/checkout', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ packId: selectedPack.id }),
+  //     });
+  //     const { url } = await res.json();
+  //     if (url) window.location.href = url; // redireciona para checkout (Stripe/MP)
+  //   } catch {
+  //     alert('Erro ao iniciar compra. Tente novamente.');
+  //   } finally {
+  //     setBuying(false);
+  //   }
+  // }
 
   async function handleLogout() {
     await signOut(auth);
