@@ -130,13 +130,22 @@ export default function Page() {
       <div className={styles.pageHero}>
         <p className={styles.pageLabel}>Biblioteca</p>
         {isAdmin && (
-          <button
-            onClick={() => {
-              router.push('admin/packs');
-            }}
-          >
-            Ir para Packs/Admin
-          </button>
+          <div>
+            <button
+              onClick={() => {
+                router.push('admin/packs');
+              }}
+            >
+              Ir para Packs/Admin
+            </button>
+            <button
+              onClick={() => {
+                router.push('admin/roms');
+              }}
+            >
+              Ir para Roms/Admin
+            </button>
+          </div>
         )}
 
         <h1 className={styles.pageTitle}>Packs de jogos</h1>

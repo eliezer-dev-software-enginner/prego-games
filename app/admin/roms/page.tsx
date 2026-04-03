@@ -1,20 +1,11 @@
-//#app/admin/roms/page.tsx
-
 'use client';
 
-import {
-  Field,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
-} from '@/components/ui/field';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 
 import { storage } from '@/app/config/firebase';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 export type Rom = {
   id: string;
@@ -32,7 +23,6 @@ export default function Page() {
   const [romFile, setRomFile] = useState<File | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
   const [coverProgress, setCoverProgress] = useState<number | null>(null);
   const [romProgress, setRomProgress] = useState<number | null>(null);
 
@@ -52,6 +42,7 @@ export default function Page() {
     setDescription(rom.descricao);
     setCoverFile(null);
     setRomFile(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function handleClear() {
@@ -72,15 +63,12 @@ export default function Page() {
     return new Promise((resolve, reject) => {
       const storageRef = ref(storage, path);
       const task = uploadBytesResumable(storageRef, file);
-
       task.on(
         'state_changed',
-        (snap) => {
-          const pct = Math.round(
-            (snap.bytesTransferred / snap.totalBytes) * 100,
-          );
-          onProgress(pct);
-        },
+        (snap) =>
+          onProgress(
+            Math.round((snap.bytesTransferred / snap.totalBytes) * 100),
+          ),
         reject,
         async () => resolve(await getDownloadURL(task.snapshot.ref)),
       );
@@ -95,7 +83,6 @@ export default function Page() {
     try {
       setLoading(true);
 
-      // faz upload dos arquivos se foram selecionados
       let capaRef = editingId
         ? roms.find((r) => r.id === editingId)?.['capa-ref']
         : '';
@@ -103,21 +90,18 @@ export default function Page() {
         ? roms.find((r) => r.id === editingId)?.['path-ref']
         : '';
 
-      if (coverFile) {
+      if (coverFile)
         capaRef = await uploadFile(
           coverFile,
           `roms/covers/${title}`,
           setCoverProgress,
         );
-      }
-
-      if (romFile) {
+      if (romFile)
         pathRef = await uploadFile(
           romFile,
           `roms/files/${title}`,
           setRomProgress,
         );
-      }
 
       const method = editingId ? 'PUT' : 'POST';
       const url = editingId ? `/api/roms/${editingId}` : '/api/roms';
@@ -134,7 +118,6 @@ export default function Page() {
       });
 
       if (!res.ok) throw new Error('Erro ao salvar');
-
       handleClear();
       await fetchRoms();
     } catch (e: any) {
@@ -146,7 +129,6 @@ export default function Page() {
 
   async function handleDelete(id: string) {
     if (!confirm('Deseja excluir este jogo?')) return;
-
     try {
       const res = await fetch(`/api/roms/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Erro ao excluir');
@@ -156,118 +138,187 @@ export default function Page() {
     }
   }
 
+  const showProgress =
+    loading && (coverProgress !== null || romProgress !== null);
+
   return (
-    <div>
-      {loading && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {coverProgress !== null && (
-            <div>
-              <span style={{ fontSize: 12 }}>Capa: {coverProgress}%</span>
-              <div
-                style={{ height: 6, background: '#e5e7eb', borderRadius: 99 }}
-              >
-                <div
-                  style={{
-                    height: '100%',
-                    width: `${coverProgress}%`,
-                    background: coverProgress === 100 ? '#1D9E75' : '#378ADD',
-                    borderRadius: 99,
-                    transition: 'width 0.2s',
-                  }}
-                />
-              </div>
+    <div className={styles.root}>
+      <header className={styles.header}>
+        <Link href='/' className={styles.logo}>
+          Prego<span className={styles.logoAccent}>.</span>Games
+        </Link>
+        <span className={styles.adminBadge}>Admin</span>
+      </header>
+
+      <div className={styles.layout}>
+        {/* Formulário */}
+        <div className={styles.formPanel}>
+          <h2 className={styles.formTitle}>
+            {editingId ? 'Atualizar jogo' : 'Novo jogo'}
+          </h2>
+
+          <div className={styles.formFields}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label} htmlFor='title'>
+                Título
+              </label>
+              <input
+                id='title'
+                className={styles.input}
+                autoComplete='off'
+                placeholder='Ex: Super Mario World'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label} htmlFor='description'>
+                Descrição
+              </label>
+              <input
+                id='description'
+                className={styles.input}
+                autoComplete='off'
+                placeholder='Breve descrição do jogo'
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label} htmlFor='cover'>
+                Capa do jogo
+              </label>
+              <input
+                id='cover'
+                type='file'
+                accept='image/*'
+                className={styles.fileInput}
+                onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label} htmlFor='rom'>
+                Arquivo do jogo
+              </label>
+              <input
+                id='rom'
+                type='file'
+                className={styles.fileInput}
+                onChange={(e) => setRomFile(e.target.files?.[0] ?? null)}
+              />
+            </div>
+          </div>
+
+          {/* Progress bars */}
+          {showProgress && (
+            <div className={styles.progressWrapper}>
+              {coverProgress !== null && (
+                <div className={styles.progressItem}>
+                  <div className={styles.progressLabel}>
+                    <span>Capa</span>
+                    <span className={styles.progressPct}>{coverProgress}%</span>
+                  </div>
+                  <div className={styles.progressTrack}>
+                    <div
+                      className={`${styles.progressBar} ${coverProgress === 100 ? styles.done : styles.uploading}`}
+                      style={{ width: `${coverProgress}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+              {romProgress !== null && (
+                <div className={styles.progressItem}>
+                  <div className={styles.progressLabel}>
+                    <span>Arquivo</span>
+                    <span className={styles.progressPct}>{romProgress}%</span>
+                  </div>
+                  <div className={styles.progressTrack}>
+                    <div
+                      className={`${styles.progressBar} ${romProgress === 100 ? styles.done : styles.uploading}`}
+                      style={{ width: `${romProgress}%` }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           )}
-          {romProgress !== null && (
-            <div>
-              <span style={{ fontSize: 12 }}>Arquivo: {romProgress}%</span>
-              <div
-                style={{ height: 6, background: '#e5e7eb', borderRadius: 99 }}
-              >
-                <div
-                  style={{
-                    height: '100%',
-                    width: `${romProgress}%`,
-                    background: romProgress === 100 ? '#1D9E75' : '#378ADD',
-                    borderRadius: 99,
-                    transition: 'width 0.2s',
-                  }}
-                />
-              </div>
+
+          <div className={styles.formActions}>
+            <button
+              className={styles.btnSave}
+              onClick={handleSaveUpdate}
+              disabled={loading}
+            >
+              {loading
+                ? 'Salvando...'
+                : editingId
+                  ? 'Atualizar'
+                  : 'Salvar jogo'}
+            </button>
+            {editingId && (
+              <button className={styles.btnCancel} onClick={handleClear}>
+                Cancelar
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Lista de jogos */}
+        <div className={styles.listPanel}>
+          <div className={styles.listHeader}>
+            <h1 className={styles.listTitle}>Jogos</h1>
+            <span className={styles.listCount}>
+              {roms.length} cadastrado{roms.length !== 1 ? 's' : ''}
+            </span>
+          </div>
+
+          {roms.length === 0 ? (
+            <div className={styles.empty}>
+              <div className={styles.emptyIcon}>🕹️</div>
+              <p className={styles.emptyText}>Nenhum jogo cadastrado ainda.</p>
+            </div>
+          ) : (
+            <div className={styles.grid}>
+              {roms.map((rom) => (
+                <div key={rom.id} className={styles.card}>
+                  <div className={styles.coverWrapper}>
+                    {rom['capa-ref'] ? (
+                      <img
+                        src={rom['capa-ref']}
+                        alt={rom.titulo}
+                        className={styles.cover}
+                      />
+                    ) : (
+                      <div className={styles.coverPlaceholder}>🎮</div>
+                    )}
+                  </div>
+                  <div className={styles.cardBody}>
+                    <h3 className={styles.cardTitle}>{rom.titulo}</h3>
+                    <p className={styles.cardDesc}>{rom.descricao}</p>
+                    <div className={styles.cardActions}>
+                      <button
+                        className={styles.btnEdit}
+                        onClick={() => handleEdit(rom)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className={styles.btnDelete}
+                        onClick={() => handleDelete(rom.id)}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>
-      )}
-      <FieldSet>
-        <FieldLegend>{editingId ? 'Atualizar jogo' : 'Criar jogo'}</FieldLegend>
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor='title'>Título</FieldLabel>
-            <Input
-              id='title'
-              autoComplete='off'
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor='description'>Descrição</FieldLabel>
-            <Input
-              id='description'
-              autoComplete='off'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor='cover'>Capa do jogo</FieldLabel>
-            <Input
-              id='cover'
-              type='file'
-              accept='image/*'
-              onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
-            />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor='rom'>Arquivo do jogo</FieldLabel>
-            <Input
-              id='rom'
-              type='file'
-              onChange={(e) => setRomFile(e.target.files?.[0] ?? null)}
-            />
-          </Field>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <Button onClick={handleSaveUpdate} disabled={loading}>
-              {loading ? 'Salvando...' : editingId ? 'Atualizar' : 'Salvar'}
-            </Button>
-            {editingId && <Button onClick={handleClear}>Cancelar</Button>}
-          </div>
-        </FieldGroup>
-      </FieldSet>
-
-      <hr />
-      <h1>Jogos</h1>
-      <ul>
-        {roms.map((rom) => (
-          <li
-            key={rom.id}
-            style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
-          >
-            {rom['capa-ref'] && (
-              <img
-                src={rom['capa-ref']}
-                alt={rom.titulo}
-                width={60}
-                height={60}
-                style={{ objectFit: 'cover', borderRadius: '4px' }}
-              />
-            )}
-            <span>{rom.titulo}</span>
-            <Button onClick={() => handleEdit(rom)}>Editar</Button>
-            <Button onClick={() => handleDelete(rom.id)}>Excluir</Button>
-          </li>
-        ))}
-      </ul>
+      </div>
     </div>
   );
 }
