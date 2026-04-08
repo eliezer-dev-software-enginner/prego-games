@@ -1,14 +1,23 @@
-//app/packs/page.tsx
-
+// app/packs/page.tsx
 'use client';
 
 import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
+import PixModal from '@/app/components/PixModal/PixModal';
 import { auth } from '@/app/config/firebase';
 import { useRouter } from 'next/navigation';
 import { Pack } from '../admin/packs/page';
 import styles from './page.module.css';
+
+interface PixData {
+  success: boolean;
+  paymentId?: string;
+  qrCodeBase64?: string | null;
+  qrCode?: string | null;
+  status?: string;
+  error?: string;
+}
 
 function SkeletonCard() {
   return (
@@ -23,8 +32,6 @@ function SkeletonCard() {
   );
 }
 
-//TODO: Gerar chave pix
-//TODO: Processar pagamento
 export default function Page() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -32,6 +39,8 @@ export default function Page() {
   const [ownedIds, setOwnedIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPack, setSelectedPack] = useState<Pack | null>(null);
+
+  const [pixData, setPixData] = useState<PixData | null>(null);
   const [buying, setBuying] = useState(false);
 
   const [isAdmin, setIsAdmin] = useState(false);
@@ -75,6 +84,13 @@ export default function Page() {
     setOwnedIds(data.map((p: { packId: string }) => p.packId));
   }
 
+  // Abre o modal de confirmação
+  function handleSelectPack(pack: Pack) {
+    setSelectedPack(pack);
+    setPixData(null);
+  }
+
+  // Gera o PIX e abre o modal com QR Code
   async function handleBuy() {
     if (!selectedPack) return;
     setBuying(true);
@@ -85,37 +101,34 @@ export default function Page() {
         body: JSON.stringify({ packId: selectedPack.id }),
       });
 
+      const data: PixData = await res.json();
+
       if (!res.ok) {
-        const { error } = await res.json();
-        throw new Error(error);
+        throw new Error(data.error ?? 'Erro ao gerar pagamento');
       }
 
-      setSelectedPack(null);
-      await fetchOwned(); // atualiza os packs adquiridos na tela
+      // Abre o modal do PIX com os dados do QR Code
+      setPixData(data);
     } catch (e: any) {
       alert(e.message);
+      setSelectedPack(null);
     } finally {
       setBuying(false);
     }
   }
 
-  // async function handleBuy() {
-  //   if (!selectedPack) return;
-  //   setBuying(true);
-  //   try {
-  //     const res = await fetch('/api/checkout', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({ packId: selectedPack.id }),
-  //     });
-  //     const { url } = await res.json();
-  //     if (url) window.location.href = url; // redireciona para checkout (Stripe/MP)
-  //   } catch {
-  //     alert('Erro ao iniciar compra. Tente novamente.');
-  //   } finally {
-  //     setBuying(false);
-  //   }
-  // }
+  // Chamado pelo PixModal quando o pagamento é confirmado
+  async function handlePaymentConfirmed() {
+    setPixData(null);
+    setSelectedPack(null);
+    await fetchOwned();
+  }
+
+  // Fecha qualquer modal aberto
+  function handleCloseModals() {
+    setPixData(null);
+    setSelectedPack(null);
+  }
 
   async function handleLogout() {
     await signOut(auth);
@@ -157,23 +170,14 @@ export default function Page() {
         <p className={styles.pageLabel}>Biblioteca</p>
         {isAdmin && (
           <div>
-            <button
-              onClick={() => {
-                router.push('admin/packs');
-              }}
-            >
+            <button onClick={() => router.push('admin/packs')}>
               Ir para Packs/Admin
             </button>
-            <button
-              onClick={() => {
-                router.push('admin/roms');
-              }}
-            >
+            <button onClick={() => router.push('admin/roms')}>
               Ir para Roms/Admin
             </button>
           </div>
         )}
-
         <h1 className={styles.pageTitle}>Packs de jogos</h1>
         <p className={styles.pageDesc}>
           Escolha um pack e tenha acesso imediato à coleção completa de jogos.
@@ -229,7 +233,7 @@ export default function Page() {
                       ) : (
                         <button
                           className={styles.btnBuy}
-                          onClick={() => setSelectedPack(pack)}
+                          onClick={() => handleSelectPack(pack)}
                         >
                           Comprar pack
                         </button>
@@ -243,9 +247,9 @@ export default function Page() {
         )}
       </div>
 
-      {/* Modal de confirmação de compra */}
-      {selectedPack && (
-        <div className={styles.overlay} onClick={() => setSelectedPack(null)}>
+      {/* Modal de confirmação de compra (antes de gerar o PIX) */}
+      {selectedPack && !pixData && (
+        <div className={styles.overlay} onClick={handleCloseModals}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             {selectedPack.capaRef ? (
               <img
@@ -270,11 +274,15 @@ export default function Page() {
                   <span className={styles.modalInfoLabel}>Acesso</span>
                   <span className={styles.modalInfoValue}>Vitalício</span>
                 </div>
+                <div className={styles.modalInfoItem}>
+                  <span className={styles.modalInfoLabel}>Pagamento</span>
+                  <span className={styles.modalInfoValue}>PIX</span>
+                </div>
               </div>
               <div className={styles.modalActions}>
                 <button
                   className={styles.btnCancel}
-                  onClick={() => setSelectedPack(null)}
+                  onClick={handleCloseModals}
                 >
                   Cancelar
                 </button>
@@ -283,12 +291,22 @@ export default function Page() {
                   onClick={handleBuy}
                   disabled={buying}
                 >
-                  {buying ? 'Aguarde...' : 'Confirmar compra'}
+                  {buying ? 'Gerando PIX...' : 'Pagar com PIX'}
                 </button>
               </div>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Modal do PIX com QR Code */}
+      {pixData && selectedPack && (
+        <PixModal
+          packName={selectedPack.titulo}
+          pixData={pixData}
+          onClose={handleCloseModals}
+          onPaymentConfirmed={handlePaymentConfirmed}
+        />
       )}
     </div>
   );

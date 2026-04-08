@@ -1,5 +1,7 @@
-import { MercadoPagoConfig } from 'mercadopago';
+//app/lib/mercadoPago.ts
+
 import { isProductionMode } from '@/app/lib/common';
+import { MercadoPagoConfig } from 'mercadopago';
 
 const isProd = isProductionMode();
 

@@ -1,0 +1,304 @@
+/* app/components/PixModal/PixModal.module.css */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  background: #0f0f13;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  padding: 1.75rem;
+  color: #f0f0f0;
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  animation: slideUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pixBadge {
+  background: #00c37a;
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.55rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.headerLabel {
+  font-size: 0.72rem;
+  color: #666;
+  margin: 0 0 0.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.headerTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+}
+
+.closeBtn {
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: #888;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  flex-shrink: 0;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* Banners */
+.successBanner {
+  background: rgba(0, 195, 122, 0.12);
+  border: 1px solid rgba(0, 195, 122, 0.3);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #00c37a;
+  font-weight: 600;
+  font-size: 0.95rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.successIcon {
+  font-size: 1.4rem;
+}
+
+.expiredBanner {
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 80, 80, 0.25);
+  border-radius: 12px;
+  padding: 1.25rem;
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* QR Section */
+.qrSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.qrWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.qrImage {
+  display: block;
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  border: 3px solid rgba(255, 255, 255, 0.06);
+}
+
+.qrChecking {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 15, 19, 0.65);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrPlaceholder {
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 0.85rem;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #00c37a;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.timerIcon {
+  font-size: 0.9rem;
+}
+
+.timerValue {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: #aaa;
+  letter-spacing: 0.04em;
+}
+
+.timerLabel {
+  color: #555;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #3a3a3a;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Copy section */
+.copySection {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.copyCode {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+}
+
+.copyCodeText {
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  color: #888;
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+.copyBtn {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 195, 122, 0.35);
+  background: rgba(0, 195, 122, 0.08);
+  color: #00c37a;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.copyBtn:hover {
+  background: rgba(0, 195, 122, 0.15);
+  border-color: rgba(0, 195, 122, 0.5);
+}
+
+.copyBtn.copied {
+  background: rgba(0, 195, 122, 0.2);
+  border-color: #00c37a;
+  color: #00c37a;
+}
+
+/* Steps */
+.steps {
+  margin: 0;
+  padding: 0 0 0 1.2rem;
+  list-style: decimal;
+  color: #555;
+  font-size: 0.8rem;
+  line-height: 1.9;
+}
+
+.steps li {
+  padding-left: 0.2rem;
+}
