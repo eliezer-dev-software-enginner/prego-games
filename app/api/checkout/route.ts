@@ -2,8 +2,8 @@ import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 // app/api/checkout/route.ts
 import { adminAuth, adminDb } from '@/app/config/firebase-admin';
 
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
 export async function POST(req: Request) {
   const session = (await cookies()).get('session');
@@ -45,6 +45,7 @@ export async function POST(req: Request) {
   // simula pagamento e adiciona o pack ao usuário
 
   //TODO: IMPLEMENTAR PAGAMENTO NO GATEWAY DE VERDADE
+  await handleBuy();
 
   await userRef.update({
     packs: FieldValue.arrayUnion({
@@ -54,4 +55,56 @@ export async function POST(req: Request) {
   });
 
   return NextResponse.json({ success: true });
+}
+
+async function handleBuy() {
+  try {
+    let body = await req.json();
+
+    const paymentId = body?.data?.id;
+
+    if (!paymentId)
+      return Response.json(
+        { error: 'paymentId não encontrado' },
+        { status: 400 },
+      );
+
+    const paymentIdStr = String(paymentId);
+
+    // Se for ID de teste do Mercado Pago, retorna sucesso
+    if (paymentIdStr === '123456') {
+      console.log('📝 Teste de webhook recebido');
+      return Response.json({ received: true, test: true });
+    }
+
+    const payment = new Payment(client);
+    const result = await payment.get({ id: paymentIdStr });
+
+    const novoStatus: string = result.status || 'unknown';
+
+    await updatePaymentStatus(paymentIdStr, novoStatus);
+
+    if (novoStatus === 'approved') {
+      console.log('✅ Pagamento aprovado:', paymentId);
+
+      const paymentData = await getPayment(paymentIdStr);
+
+      if (paymentData?.userId) {
+        console.log('Liberar acesso para userId:', paymentData.userId);
+        await grantUserAccess(paymentData.userId, paymentIdStr);
+      }
+    }
+
+    return Response.json({ received: true });
+  } catch (error: any) {
+    console.error('Erro no webhook:', error.message || error);
+
+    return Response.json(
+      {
+        error: 'Erro no webhook',
+        message: error.message || 'Erro desconhecido',
+      },
+      { status: 500 },
+    );
+  }
 }
