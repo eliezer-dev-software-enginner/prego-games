@@ -245,9 +245,9 @@ export default function Page() {
                       onClick={() => handleUnselect(rom.id)}
                       title='Clique para remover'
                     >
-                      {rom['capa-ref'] && (
+                      {rom[capaRef] && (
                         <img
-                          src={rom['capa-ref']}
+                          src={rom[capaRef]}
                           alt={rom.titulo}
                           width={24}
                           height={24}
@@ -389,9 +389,9 @@ export default function Page() {
                     ✓
                   </div>
                 )}
-                {rom['capa-ref'] ? (
+                {rom[capaRef] ? (
                   <img
-                    src={rom['capa-ref']}
+                    src={rom[capaRef]}
                     alt={rom.titulo}
                     width='100%'
                     height={100}

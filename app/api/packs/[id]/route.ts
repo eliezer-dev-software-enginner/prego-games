@@ -1,6 +1,23 @@
+// app/api/packs/[id]/route.ts
+
 import { verifyAdmin } from '@/app/admin/_utils/utils';
+import { Pack } from '@/app/admin/packs/page';
 import { adminDb } from '@/app/config/firebase-admin';
 import { NextResponse } from 'next/server';
+
+export async function GET(
+  _: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
+
+  const snap = await adminDb.collection('apps/prego-games/packs').doc(id).get();
+
+  if (!snap.exists)
+    return NextResponse.json({ error: 'Pack não encontrado' }, { status: 404 });
+
+  return NextResponse.json({ id: snap.id, ...snap.data() });
+}
 
 export async function PUT(
   req: Request,
@@ -11,14 +28,9 @@ export async function PUT(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { id } = await params;
-  const body = await req.json();
+  const body: Pack = await req.json();
 
-  await adminDb.collection('apps/prego-games/packs').doc(id).update({
-    titulo: body.titulo,
-    descricao: body.descricao,
-    'capa-ref': body['capa-ref'],
-    'path-ref': body['path-ref'],
-  });
+  await adminDb.collection('apps/prego-games/packs').doc(id).update(body);
 
   return NextResponse.json({ id });
 }

@@ -11,8 +11,8 @@ export type Rom = {
   id: string;
   titulo: string;
   descricao: string;
-  'path-ref': string;
-  'capa-ref': string;
+  pathRef: string;
+  capaRef: string;
 };
 
 export default function Page() {
@@ -84,10 +84,10 @@ export default function Page() {
       setLoading(true);
 
       let capaRef = editingId
-        ? roms.find((r) => r.id === editingId)?.['capa-ref']
+        ? roms.find((r) => r.id === editingId)?.capaRef
         : '';
       let pathRef = editingId
-        ? roms.find((r) => r.id === editingId)?.['path-ref']
+        ? roms.find((r) => r.id === editingId)?.pathRef
         : '';
 
       if (coverFile)
@@ -112,8 +112,8 @@ export default function Page() {
         body: JSON.stringify({
           titulo: title,
           descricao: description,
-          'capa-ref': capaRef,
-          'path-ref': pathRef,
+          capaRef: capaRef,
+          pathRef: pathRef,
         }),
       });
 
@@ -285,9 +285,9 @@ export default function Page() {
               {roms.map((rom) => (
                 <div key={rom.id} className={styles.card}>
                   <div className={styles.coverWrapper}>
-                    {rom['capa-ref'] ? (
+                    {rom.capaRef ? (
                       <img
-                        src={rom['capa-ref']}
+                        src={rom.capaRef}
                         alt={rom.titulo}
                         className={styles.cover}
                       />

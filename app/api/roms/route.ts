@@ -1,6 +1,5 @@
-import { adminDb } from '@/app/config/firebase-admin';
-
 import { verifyAdmin } from '@/app/admin/_utils/utils';
+import { adminDb } from '@/app/config/firebase-admin';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -21,12 +20,7 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
-  const ref = await adminDb.collection('apps/prego-games/roms').add({
-    titulo: body.titulo,
-    descricao: body.descricao,
-    'capa-ref': body['capa-ref'],
-    'path-ref': body['path-ref'],
-  });
+  const ref = await adminDb.collection('apps/prego-games/roms').add(body);
 
   return NextResponse.json({ id: ref.id }, { status: 201 });
 }

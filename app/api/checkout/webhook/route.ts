@@ -8,10 +8,11 @@ import { Payment } from 'mercadopago';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-  console.log('requisição chegou');
   try {
     const body = await req.json();
     const paymentId = body?.data?.id;
+
+    console.log('-----requisição chegou: paymentId: ' + paymentId);
 
     if (!paymentId)
       return NextResponse.json(
@@ -29,6 +30,10 @@ export async function POST(req: Request) {
 
     const payment = new Payment(client);
     const result = await payment.get({ id: paymentIdStr });
+
+    console.log('-----busca de payment: ');
+    console.log(result);
+
     const novoStatus: string = result.status ?? 'unknown';
 
     // Atualiza o status do pagamento no Firestore

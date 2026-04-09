@@ -1,9 +1,9 @@
 // app/api/checkout/route.ts
 
 import { adminAuth, adminDb } from '@/app/config/firebase-admin';
-import { Timestamp } from 'firebase-admin/firestore';
 
 import client from '@/app/lib/mercadoPago';
+import { Timestamp } from 'firebase-admin/firestore';
 import { Payment } from 'mercadopago';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
@@ -72,6 +72,10 @@ export async function POST(req: Request) {
 
     const paymentId = String(result.id);
 
+    console.log('pagamento gerado');
+    console.log(paymentId);
+    console.log(payment);
+
     // 6. Salva o pagamento pendente no Firestore
     await adminDb
       .collection('apps/prego-games/payments')
@@ -83,6 +87,8 @@ export async function POST(req: Request) {
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       });
+
+    console.log('pagamento salvo em apps/prego-games/payments');
 
     // 7. Retorna os dados do PIX para o frontend exibir
     return NextResponse.json({

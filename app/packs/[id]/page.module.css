@@ -1,0 +1,281 @@
+/* app/packs/[id]/page.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+.root {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #f0ede6;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── HEADER ── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #141414;
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 0.06em;
+  color: #f0ede6;
+  text-decoration: none;
+}
+
+.logoAccent {
+  color: #ff5a00;
+}
+
+.btnBack {
+  font-size: 13px;
+  font-weight: 600;
+  color: #7a7368;
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid #1e1e1e;
+  border-radius: 6px;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.btnBack:hover {
+  border-color: #3a3530;
+  color: #f0ede6;
+}
+
+/* ── PACK HERO ── */
+.packHero {
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+}
+
+.packCover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.4);
+}
+
+.packCoverPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #141414, #1e1e1e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+}
+
+.packHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    #0a0a0a 0%,
+    rgba(10, 10, 10, 0.5) 60%,
+    transparent 100%
+  );
+}
+
+.packHeroContent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px 40px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pageLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ff5a00;
+  margin-bottom: 10px;
+}
+
+.packTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1;
+  margin: 0 0 12px;
+  letter-spacing: 0.02em;
+}
+
+.packDesc {
+  font-size: 15px;
+  color: #a09a90;
+  max-width: 560px;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.packMeta {
+  display: flex;
+  gap: 20px;
+}
+
+.packMetaItem {
+  font-size: 13px;
+  font-weight: 600;
+  color: #504a42;
+}
+
+/* ── ROM LIST ── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+.sectionTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.04em;
+  margin: 0 0 24px;
+  color: #f0ede6;
+}
+
+.romList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.romCard {
+  background: #111;
+  border: 1px solid #1a1a1a;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+  animation: rowIn 0.4s ease both;
+}
+
+.romCard:hover {
+  border-color: #2a2a2a;
+  background: #151515;
+}
+
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.romCard:nth-child(1) {
+  animation-delay: 0.04s;
+}
+.romCard:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.romCard:nth-child(3) {
+  animation-delay: 0.12s;
+}
+.romCard:nth-child(4) {
+  animation-delay: 0.16s;
+}
+.romCard:nth-child(5) {
+  animation-delay: 0.2s;
+}
+.romCard:nth-child(6) {
+  animation-delay: 0.24s;
+}
+.romCard:nth-child(7) {
+  animation-delay: 0.28s;
+}
+.romCard:nth-child(8) {
+  animation-delay: 0.32s;
+}
+
+.romCover {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #1e1e1e;
+}
+
+.romCoverPlaceholder {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.romInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.romTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.03em;
+  margin: 0 0 2px;
+  color: #f0ede6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.romDesc {
+  font-size: 13px;
+  color: #504a42;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── DOWNLOAD BUTTON ── */
+.btnDownload {
+  background: transparent;
+  border: 1px solid #ff5a00;
+  color: #ff5a00;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.btnDownload:hover {
+  background: #ff5a00;
+  color: #fff;
+}

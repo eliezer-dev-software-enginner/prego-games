@@ -11,8 +11,8 @@ type Rom = {
   id: string;
   titulo: string;
   descricao: string;
-  'capa-ref': string;
-  'path-ref': string;
+  capaRef: string;
+  pathRef: string;
 };
 
 export default async function Page() {
@@ -60,9 +60,9 @@ export default async function Page() {
             {roms.map((rom) => (
               <div key={rom.id} className={styles.card}>
                 <div className={styles.coverWrapper}>
-                  {rom['capa-ref'] ? (
+                  {rom[capaRef] ? (
                     <img
-                      src={rom['capa-ref']}
+                      src={rom[capaRef]}
                       alt={rom.titulo}
                       className={styles.cardCover}
                     />

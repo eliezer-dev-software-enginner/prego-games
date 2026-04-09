@@ -16,8 +16,8 @@ export async function PUT(
   await adminDb.collection('apps/prego-games/roms').doc(id).update({
     titulo: body.titulo,
     descricao: body.descricao,
-    'capa-ref': body['capa-ref'],
-    'path-ref': body['path-ref'],
+    capaRef: body[capaRef],
+    pathRef: body[pathRef],
   });
 
   return NextResponse.json({ id });
