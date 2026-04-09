@@ -72,6 +72,7 @@ export default function Page() {
     try {
       const res = await fetch('/api/packs');
       const data = await res.json();
+
       setPacks(data);
     } finally {
       setLoading(false);
@@ -94,6 +95,9 @@ export default function Page() {
   async function handleBuy() {
     if (!selectedPack) return;
     setBuying(true);
+
+    console.log(selectedPack);
+
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',

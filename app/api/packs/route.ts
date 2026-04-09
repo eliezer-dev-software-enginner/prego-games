@@ -6,7 +6,10 @@ import { verifyAdmin } from '@/app/admin/_utils/utils';
 
 export async function GET() {
   const snapshot = await adminDb.collection('apps/prego-games/packs').get();
-  const roms = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  const roms = snapshot.docs.map((doc) => {
+    console.log(doc.id);
+    return { ...doc.data(), id: doc.id };
+  });
 
   return NextResponse.json(roms);
 }
