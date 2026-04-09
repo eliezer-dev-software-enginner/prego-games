@@ -1,7 +1,8 @@
-import { verifyAdmin } from '@/app/admin/_utils/utils';
 import { Pack } from '@/app/admin/packs/page';
 import { adminDb } from '@/app/config/firebase-admin';
 import { NextResponse } from 'next/server';
+//api/packs/route.ts
+import { verifyAdmin } from '@/app/admin/_utils/utils';
 
 export async function GET() {
   const snapshot = await adminDb.collection('apps/prego-games/packs').get();
@@ -20,6 +21,9 @@ export async function POST(req: Request) {
   console.log('body: ' + body);
 
   const ref = await adminDb.collection('apps/prego-games/packs').add(body);
+
+  // Salva o id gerado dentro do próprio documento
+  await ref.update({ id: ref.id });
 
   return NextResponse.json({ id: ref.id }, { status: 201 });
 }

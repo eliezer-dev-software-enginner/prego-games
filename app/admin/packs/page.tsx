@@ -1,3 +1,5 @@
+//app/admin/packs/page.tsx
+
 'use client';
 
 import {

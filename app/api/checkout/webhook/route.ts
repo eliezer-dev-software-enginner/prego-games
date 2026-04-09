@@ -8,6 +8,7 @@ import { Payment } from 'mercadopago';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
+  console.log('requisição chegou');
   try {
     const body = await req.json();
     const paymentId = body?.data?.id;
