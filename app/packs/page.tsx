@@ -72,7 +72,6 @@ export default function Page() {
     try {
       const res = await fetch('/api/packs');
       const data = await res.json();
-
       setPacks(data);
     } finally {
       setLoading(false);
@@ -85,19 +84,14 @@ export default function Page() {
     setOwnedIds(data.map((p: { packId: string }) => p.packId));
   }
 
-  // Abre o modal de confirmação
   function handleSelectPack(pack: Pack) {
     setSelectedPack(pack);
     setPixData(null);
   }
 
-  // Gera o PIX e abre o modal com QR Code
   async function handleBuy() {
     if (!selectedPack) return;
     setBuying(true);
-
-    console.log(selectedPack);
-
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
@@ -111,7 +105,6 @@ export default function Page() {
         throw new Error(data.error ?? 'Erro ao gerar pagamento');
       }
 
-      // Abre o modal do PIX com os dados do QR Code
       setPixData(data);
     } catch (e: any) {
       alert(e.message);
@@ -121,14 +114,12 @@ export default function Page() {
     }
   }
 
-  // Chamado pelo PixModal quando o pagamento é confirmado
   async function handlePaymentConfirmed() {
     setPixData(null);
     setSelectedPack(null);
     await fetchOwned();
   }
 
-  // Fecha qualquer modal aberto
   function handleCloseModals() {
     setPixData(null);
     setSelectedPack(null);
@@ -208,7 +199,12 @@ export default function Page() {
             {packs.map((pack) => {
               const owned = ownedIds.includes(pack.id);
               return (
-                <div key={pack.id} className={styles.card}>
+                <div
+                  key={pack.id}
+                  className={styles.card}
+                  onClick={() => owned && router.push(`/packs/${pack.id}`)}
+                  style={{ cursor: owned ? 'pointer' : 'default' }}
+                >
                   {pack.capaRef ? (
                     <img
                       src={pack.capaRef}
@@ -231,13 +227,22 @@ export default function Page() {
                         )}
                       </div>
                       {owned ? (
-                        <span className={styles.btnOwned}>
-                          ✓ Você tem este pack
+                        <span
+                          className={styles.btnOwned}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/packs/${pack.id}`);
+                          }}
+                        >
+                          Ver jogos →
                         </span>
                       ) : (
                         <button
                           className={styles.btnBuy}
-                          onClick={() => handleSelectPack(pack)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSelectPack(pack);
+                          }}
                         >
                           Comprar pack
                         </button>
@@ -251,7 +256,7 @@ export default function Page() {
         )}
       </div>
 
-      {/* Modal de confirmação de compra (antes de gerar o PIX) */}
+      {/* Modal de confirmação de compra */}
       {selectedPack && !pixData && (
         <div className={styles.overlay} onClick={handleCloseModals}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
