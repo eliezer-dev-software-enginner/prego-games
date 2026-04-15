@@ -60,9 +60,9 @@ export default async function Page() {
             {roms.map((rom) => (
               <div key={rom.id} className={styles.card}>
                 <div className={styles.coverWrapper}>
-                  {rom[capaRef] ? (
+                  {rom.capaRef ? (
                     <img
-                      src={rom[capaRef]}
+                      src={rom.capaRef}
                       alt={rom.titulo}
                       className={styles.cardCover}
                     />
