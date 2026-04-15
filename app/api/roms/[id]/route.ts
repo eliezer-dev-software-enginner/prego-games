@@ -13,12 +13,7 @@ export async function PUT(
   const { id } = await params;
   const body = await req.json();
 
-  await adminDb.collection('apps/prego-games/roms').doc(id).update({
-    titulo: body.titulo,
-    descricao: body.descricao,
-    capaRef: body[capaRef],
-    pathRef: body[pathRef],
-  });
+  await adminDb.collection('apps/prego-games/roms').doc(id).update(body);
 
   return NextResponse.json({ id });
 }

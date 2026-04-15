@@ -60,9 +60,13 @@ export default function Page() {
     path: string,
     onProgress: (pct: number) => void,
   ): Promise<string> {
+    const metadata = {
+      contentDisposition: `attachment; filename="${file.name}"`,
+    };
+
     return new Promise((resolve, reject) => {
       const storageRef = ref(storage, path);
-      const task = uploadBytesResumable(storageRef, file);
+      const task = uploadBytesResumable(storageRef, file, metadata);
       task.on(
         'state_changed',
         (snap) =>

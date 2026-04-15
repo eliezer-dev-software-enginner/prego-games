@@ -12,12 +12,14 @@ export default function DownloadButton({ url, filename }: Props) {
   function handleDownload() {
     const link = document.createElement('a');
     link.href = url;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
+    link.download = filename; // 👈 ISSO AQUI resolve
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   }
+  // function handleDownload() {
+  //   window.open(url, '_blank', 'noopener,noreferrer');
+  // }
 
   return (
     <button className={styles.btnDownload} onClick={handleDownload}>
