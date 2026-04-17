@@ -80,6 +80,10 @@ export default function Page() {
     }
   }, [user]);
 
+  useEffect(() => {
+    document.title = 'Prego Games - Jogos Avulsos Retro';
+  }, []);
+
   function handleSelectRom(rom: Rom) {
     setSelectedRom(rom);
     setPixData(null);

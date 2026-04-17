@@ -63,6 +63,10 @@ export default function Page() {
     fetchOwned();
   }, [user]);
 
+  useEffect(() => {
+    document.title = 'Prego Games - Packs de Jogos Retro';
+  }, []);
+
   async function checkIfAdmin() {
     const res = await fetch('/api/admin');
     setIsAdmin(res.status === 200);
