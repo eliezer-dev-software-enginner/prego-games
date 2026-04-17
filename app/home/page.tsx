@@ -65,6 +65,10 @@ export default function Page() {
     fetchData();
   }, [user]);
 
+  useEffect(() => {
+    document.title = 'Prego Games - Biblioteca de Jogos Retro';
+  }, []);
+
   async function fetchData() {
     try {
       const [packsRes, romsRes, userPacksRes, userRomsRes] = await Promise.all([
