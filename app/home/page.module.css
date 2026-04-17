@@ -146,6 +146,34 @@
   color: #e04e00;
 }
 
+/* ── BOTÃO COMPRAR ── */
+.btnBuy {
+  background: #ff5a00;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.btnBuy:hover {
+  background: #e04e00;
+  transform: translateY(-1px);
+}
+
+.btnBuy:disabled {
+  background: #1e1e1e;
+  color: #504a42;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* ── GRID ── */
 .grid {
   display: grid;
