@@ -9,6 +9,7 @@ import { auth } from '@/app/config/firebase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
+import { setSEOMetadata } from '../lib/common';
 
 interface Pack {
   id: string;
@@ -66,65 +67,13 @@ export default function Page() {
   }, [user]);
 
   useEffect(() => {
-    document.title = 'Prego Games - Biblioteca de Jogos Retro';
-    
-    // OpenGraph
-    let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (!ogTitle) {
-      ogTitle = document.createElement('meta');
-      ogTitle.setAttribute('property', 'og:title');
-      document.head.appendChild(ogTitle);
-    }
-    ogTitle.setAttribute('content', 'Prego Games - Biblioteca de Jogos Retro');
-
-    let ogDesc = document.querySelector('meta[property="og:description"]');
-    if (!ogDesc) {
-      ogDesc = document.createElement('meta');
-      ogDesc.setAttribute('property', 'og:description');
-      document.head.appendChild(ogDesc);
-    }
-    ogDesc.setAttribute('content', 'Acesse sua biblioteca de jogos retro. Compre packs ou jogos avulsos.');
-
-    let ogUrl = document.querySelector('meta[property="og:url"]');
-    if (!ogUrl) {
-      ogUrl = document.createElement('meta');
-      ogUrl.setAttribute('property', 'og:url');
-      document.head.appendChild(ogUrl);
-    }
-    ogUrl.setAttribute('content', 'https://pregogames.com/home');
-
-    let ogImage = document.querySelector('meta[property="og:image"]');
-    if (!ogImage) {
-      ogImage = document.createElement('meta');
-      ogImage.setAttribute('property', 'og:image');
-      document.head.appendChild(ogImage);
-    }
-    ogImage.setAttribute('content', 'https://pregogames.com/og-image.png');
-
-    // Twitter Card
-    let twitterCard = document.querySelector('meta[name="twitter:card"]');
-    if (!twitterCard) {
-      twitterCard = document.createElement('meta');
-      twitterCard.setAttribute('name', 'twitter:card');
-      document.head.appendChild(twitterCard);
-    }
-    twitterCard.setAttribute('content', 'summary_large_image');
-
-    let twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (!twitterTitle) {
-      twitterTitle = document.createElement('meta');
-      twitterTitle.setAttribute('name', 'twitter:title');
-      document.head.appendChild(twitterTitle);
-    }
-    twitterTitle.setAttribute('content', 'Prego Games - Biblioteca de Jogos Retro');
-
-    let twitterDesc = document.querySelector('meta[name="twitter:description"]');
-    if (!twitterDesc) {
-      twitterDesc = document.createElement('meta');
-      twitterDesc.setAttribute('name', 'twitter:description');
-      document.head.appendChild(twitterDesc);
-    }
-    twitterDesc.setAttribute('content', 'Acesse sua biblioteca de jogos retro. Compre packs ou jogos avulsos.');
+    setSEOMetadata({
+      title: 'Prego Games - Biblioteca de Jogos Retro',
+      description: 'Acesse sua biblioteca de jogos retro. Compre packs ou jogos avulsos.',
+      url: 'https://pregogames.com/home',
+      image: 'https://pregogames.com/og-image.png',
+      keywords: 'jogos retro, packs de jogos, roms, nintendo, snes, mega drive, playstation',
+    });
   }, []);
 
   async function fetchData() {

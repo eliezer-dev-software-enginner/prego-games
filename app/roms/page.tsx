@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import styles from './page.module.css';
 import PixModal from '@/app/components/PixModal/PixModal';
+import { setSEOMetadata } from '../lib/common';
 
 // Firebase client-side auth
 import { auth } from '@/app/config/firebase';
@@ -81,63 +82,13 @@ export default function Page() {
   }, [user]);
 
   useEffect(() => {
-    document.title = 'Prego Games - Jogos Avulsos Retro';
-
-    let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (!ogTitle) {
-      ogTitle = document.createElement('meta');
-      ogTitle.setAttribute('property', 'og:title');
-      document.head.appendChild(ogTitle);
-    }
-    ogTitle.setAttribute('content', 'Prego Games - Jogos Avulsos Retro');
-
-    let ogDesc = document.querySelector('meta[property="og:description"]');
-    if (!ogDesc) {
-      ogDesc = document.createElement('meta');
-      ogDesc.setAttribute('property', 'og:description');
-      document.head.appendChild(ogDesc);
-    }
-    ogDesc.setAttribute('content', 'Compre jogos avulsos retro com acesso vitalício.');
-
-    let ogUrl = document.querySelector('meta[property="og:url"]');
-    if (!ogUrl) {
-      ogUrl = document.createElement('meta');
-      ogUrl.setAttribute('property', 'og:url');
-      document.head.appendChild(ogUrl);
-    }
-    ogUrl.setAttribute('content', 'https://pregogames.com/roms');
-
-    let ogImage = document.querySelector('meta[property="og:image"]');
-    if (!ogImage) {
-      ogImage = document.createElement('meta');
-      ogImage.setAttribute('property', 'og:image');
-      document.head.appendChild(ogImage);
-    }
-    ogImage.setAttribute('content', 'https://pregogames.com/og-roms.png');
-
-    let twitterCard = document.querySelector('meta[name="twitter:card"]');
-    if (!twitterCard) {
-      twitterCard = document.createElement('meta');
-      twitterCard.setAttribute('name', 'twitter:card');
-      document.head.appendChild(twitterCard);
-    }
-    twitterCard.setAttribute('content', 'summary_large_image');
-
-    let twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (!twitterTitle) {
-      twitterTitle = document.createElement('meta');
-      twitterTitle.setAttribute('name', 'twitter:title');
-      document.head.appendChild(twitterTitle);
-    }
-    twitterTitle.setAttribute('content', 'Prego Games - Jogos Avulsos Retro');
-
-    let twitterDesc = document.querySelector('meta[name="twitter:description"]');
-    if (!twitterDesc) {
-      twitterDesc = document.createElement('meta');
-      twitterDesc.setAttribute('name', 'twitter:description');
-      document.head.appendChild(twitterDesc);
-    }
-    twitterDesc.setAttribute('content', 'Compre jogos avulsos retro com acesso vitalício.');
+    setSEOMetadata({
+      title: 'Prego Games - Jogos Avulsos Retro',
+      description: 'Compre jogos avulsos retro com acesso vitalício.',
+      url: 'https://pregogames.com/roms',
+      image: 'https://pregogames.com/og-roms.png',
+      keywords: 'jogos avulsos, roms individuais, jogos retro, compra de jogos',
+    });
   }, []);
 
   function handleSelectRom(rom: Rom) {
