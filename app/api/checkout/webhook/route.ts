@@ -45,7 +45,6 @@ export async function POST(req: Request) {
     if (novoStatus === 'approved') {
       console.log('✅ Pagamento aprovado:', paymentId);
 
-      // Lê os dados do pagamento salvo (userId + packId)
       const paymentSnap = await paymentRef.get();
       const paymentData = paymentSnap.data();
 
@@ -54,7 +53,6 @@ export async function POST(req: Request) {
           .collection('apps/prego-games/users')
           .doc(paymentData.userId);
 
-        // Libera o pack para o usuário
         await userRef.update({
           packs: FieldValue.arrayUnion({
             packId: paymentData.packId,
@@ -64,6 +62,23 @@ export async function POST(req: Request) {
 
         console.log(
           `🎮 Pack ${paymentData.packId} liberado para ${paymentData.userId}`,
+        );
+      }
+
+      if (paymentData?.userId && paymentData?.romId) {
+        const userRef = adminDb
+          .collection('apps/prego-games/users')
+          .doc(paymentData.userId);
+
+        await userRef.update({
+          roms: FieldValue.arrayUnion({
+            romId: paymentData.romId,
+            purchasedAt: Timestamp.now(),
+          }),
+        });
+
+        console.log(
+          `🎮 ROM ${paymentData.romId} liberada para ${paymentData.userId}`,
         );
       }
     }

@@ -15,7 +15,7 @@ interface PixData {
 }
 
 interface PixModalProps {
-  packName: string;
+  itemName: string;
   pixData: PixData;
   onClose: () => void;
   onPaymentConfirmed: () => void;
@@ -24,7 +24,7 @@ interface PixModalProps {
 type PaymentStatus = 'pending' | 'approved' | 'expired' | 'checking';
 
 export default function PixModal({
-  packName,
+  itemName,
   pixData,
   onClose,
   onPaymentConfirmed,
@@ -97,7 +97,7 @@ export default function PixModal({
             <div className={styles.pixBadge}>PIX</div>
             <div>
               <p className={styles.headerLabel}>Pagamento para</p>
-              <h2 className={styles.headerTitle}>{packName}</h2>
+              <h2 className={styles.headerTitle}>{itemName}</h2>
             </div>
           </div>
           <button className={styles.closeBtn} onClick={onClose}>

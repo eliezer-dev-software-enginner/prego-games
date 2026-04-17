@@ -13,12 +13,14 @@ export type Rom = {
   descricao: string;
   pathRef: string;
   capaRef: string;
+  preco: number;
 };
 
 export default function Page() {
   const [roms, setRoms] = useState<Rom[]>([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [romFile, setRomFile] = useState<File | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -40,6 +42,7 @@ export default function Page() {
     setEditingId(rom.id);
     setTitle(rom.titulo);
     setDescription(rom.descricao);
+    setPrice(rom.preco?.toString() ?? '');
     setCoverFile(null);
     setRomFile(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -49,6 +52,7 @@ export default function Page() {
     setEditingId(null);
     setTitle('');
     setDescription('');
+    setPrice('');
     setCoverFile(null);
     setRomFile(null);
     setCoverProgress(null);
@@ -81,6 +85,7 @@ export default function Page() {
 
   async function handleSaveUpdate() {
     if (!title || !description) return alert('Preencha título e descrição');
+    if (!price) return alert('Preencha o preço');
     if (!editingId && (!coverFile || !romFile))
       return alert('Selecione a capa e o arquivo do jogo');
 
@@ -118,6 +123,7 @@ export default function Page() {
           descricao: description,
           capaRef: capaRef,
           pathRef: pathRef,
+          preco: parseFloat(price),
         }),
       });
 
@@ -187,6 +193,23 @@ export default function Page() {
                 placeholder='Breve descrição do jogo'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label} htmlFor='price'>
+                Preço (R$)
+              </label>
+              <input
+                id='price'
+                type='number'
+                step='0.01'
+                min='0'
+                className={styles.input}
+                autoComplete='off'
+                placeholder='Ex: 9.90'
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
               />
             </div>
 
@@ -302,6 +325,7 @@ export default function Page() {
                   <div className={styles.cardBody}>
                     <h3 className={styles.cardTitle}>{rom.titulo}</h3>
                     <p className={styles.cardDesc}>{rom.descricao}</p>
+                    <p className={styles.cardPrice}>R$ {rom.preco?.toFixed(2)}</p>
                     <div className={styles.cardActions}>
                       <button
                         className={styles.btnEdit}

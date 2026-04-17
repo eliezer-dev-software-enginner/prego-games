@@ -311,7 +311,7 @@ export default function Page() {
       {/* Modal do PIX com QR Code */}
       {pixData && selectedPack && (
         <PixModal
-          packName={selectedPack.titulo}
+          itemName={selectedPack.titulo}
           pixData={pixData}
           onClose={handleCloseModals}
           onPaymentConfirmed={handlePaymentConfirmed}

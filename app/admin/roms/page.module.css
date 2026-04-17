@@ -344,6 +344,13 @@
   overflow: hidden;
 }
 
+.cardPrice {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff5a00;
+  margin: 0 0 12px;
+}
+
 .cardActions {
   display: flex;
   gap: 6px;
