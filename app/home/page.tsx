@@ -247,7 +247,7 @@ export default function Page() {
 
           <div className={styles.grid}>
             {availablePacks.slice(0, 3).map((pack) => (
-              <div key={pack.id} className={styles.card} onClick={() => handleSelectItem('pack', pack)}>
+              <div key={pack.id} className={styles.card}>
                 {pack.capaRef ? (
                   <img src={pack.capaRef} alt={pack.titulo} className={styles.cardCover} />
                 ) : (
@@ -260,6 +260,15 @@ export default function Page() {
                     <span>{pack.gamesIds?.length ?? 0} jogos</span>
                     <span className={styles.cardBadge}>Pack</span>
                   </div>
+                  <button
+                    className={styles.btnBuy}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectItem('pack', pack);
+                    }}
+                  >
+                    Comprar
+                  </button>
                 </div>
               </div>
             ))}
@@ -282,7 +291,7 @@ export default function Page() {
 
           <div className={styles.grid}>
             {availableRoms.slice(0, 4).map((rom) => (
-              <div key={rom.id} className={styles.card} onClick={() => handleSelectItem('rom', rom)}>
+              <div key={rom.id} className={styles.card}>
                 {rom.capaRef ? (
                   <img src={rom.capaRef} alt={rom.titulo} className={styles.cardCover} />
                 ) : (
@@ -295,6 +304,15 @@ export default function Page() {
                     <span className={styles.cardPrice}>R$ {rom.preco?.toFixed(2)}</span>
                     <span className={styles.cardBadge}>Avulso</span>
                   </div>
+                  <button
+                    className={styles.btnBuy}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectItem('rom', rom);
+                    }}
+                  >
+                    Comprar
+                  </button>
                 </div>
               </div>
             ))}
