@@ -7,6 +7,10 @@ import Link from 'next/link';
 import { storage } from '../../config/firebase';
 import styles from './page.module.css';
 
+type romType = 'PS2' | 'SNES' | 'GBA';
+
+const ROM_TYPES: romType[] = ['PS2', 'SNES', 'GBA'];
+
 export type Rom = {
   id: string;
   titulo: string;
@@ -14,6 +18,7 @@ export type Rom = {
   pathRef: string;
   capaRef: string;
   preco: number;
+  type: romType;
 };
 
 export default function Page() {
@@ -21,6 +26,7 @@ export default function Page() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [type, setType] = useState<romType>('SNES');
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [romFile, setRomFile] = useState<File | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -43,6 +49,7 @@ export default function Page() {
     setTitle(rom.titulo);
     setDescription(rom.descricao);
     setPrice(rom.preco?.toString() ?? '');
+    setType(rom.type ?? 'SNES');
     setCoverFile(null);
     setRomFile(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -53,6 +60,7 @@ export default function Page() {
     setTitle('');
     setDescription('');
     setPrice('');
+    setType('SNES');
     setCoverFile(null);
     setRomFile(null);
     setCoverProgress(null);
@@ -121,9 +129,10 @@ export default function Page() {
         body: JSON.stringify({
           titulo: title,
           descricao: description,
-          capaRef: capaRef,
-          pathRef: pathRef,
+          capaRef,
+          pathRef,
           preco: parseFloat(price),
+          type,
         }),
       });
 
@@ -211,6 +220,24 @@ export default function Page() {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label} htmlFor='type'>
+                Tipo / Plataforma
+              </label>
+              <select
+                id='type'
+                className={styles.input}
+                value={type}
+                onChange={(e) => setType(e.target.value as romType)}
+              >
+                {ROM_TYPES.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className={styles.fieldGroup}>
@@ -325,9 +352,14 @@ export default function Page() {
                   <div className={styles.cardBody}>
                     <h3 className={styles.cardTitle}>{rom.titulo}</h3>
                     <p className={styles.cardDesc}>{rom.descricao}</p>
-                    <p className={styles.cardPrice}>
-                      R$ {rom.preco?.toFixed(2)}
-                    </p>
+                    <div className={styles.cardMeta}>
+                      {rom.type && (
+                        <span className={styles.typeBadge}>{rom.type}</span>
+                      )}
+                      <p className={styles.cardPrice}>
+                        R$ {rom.preco?.toFixed(2)}
+                      </p>
+                    </div>
                     <div className={styles.cardActions}>
                       <button
                         className={styles.btnEdit}
