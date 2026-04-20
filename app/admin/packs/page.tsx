@@ -2,19 +2,19 @@
 
 'use client';
 
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useEffect, useState } from 'react';
 import {
   Field,
   FieldGroup,
   FieldLabel,
   FieldLegend,
   FieldSet,
-} from '@/components/ui/field';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { useEffect, useState } from 'react';
+} from '../../../components/ui/field';
 
-import { storage } from '@/app/config/firebase';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '../../../components/ui/button';
+import { Input } from '../../../components/ui/input';
+import { storage } from '../../config/firebase';
 import { Rom } from '../roms/page';
 import s from './page.module.css';
 

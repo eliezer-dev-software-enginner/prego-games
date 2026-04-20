@@ -1,8 +1,9 @@
 // app/api/user/packs/route.ts
-import { adminAuth, adminDb } from '@/app/config/firebase-admin';
 
-import { cookies } from 'next/headers';
+import { adminAuth, adminDb } from '../../../config/firebase-admin';
+
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
 export async function GET() {
   const session = (await cookies()).get('session');

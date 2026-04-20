@@ -1,16 +1,16 @@
 // app/roms/page.tsx
 'use client';
 
+import { User, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import styles from './page.module.css';
-import PixModal from '@/app/components/PixModal/PixModal';
-import { setSEOMetadata } from '../lib/common';
 
+import Link from 'next/link';
+import PixModal from '../components/PixModal/PixModal';
 // Firebase client-side auth
-import { auth } from '@/app/config/firebase';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
+import { auth } from '../config/firebase';
+import { setSEOMetadata } from '../lib/common';
+import styles from './page.module.css';
 
 interface Rom {
   id: string;
@@ -183,12 +183,17 @@ export default function Page() {
                   <div className={styles.cardBody}>
                     <h2 className={styles.cardTitle}>{rom.titulo}</h2>
                     <p className={styles.cardDesc}>{rom.descricao}</p>
-                    <p className={styles.cardPrice}>R$ {rom.preco?.toFixed(2)}</p>
+                    <p className={styles.cardPrice}>
+                      R$ {rom.preco?.toFixed(2)}
+                    </p>
                     {owned ? (
-                      <span className={styles.btnOwned} onClick={(e) => {
-                        e.stopPropagation();
-                        alert('Você já possui este jogo!');
-                      }}>
+                      <span
+                        className={styles.btnOwned}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          alert('Você já possui este jogo!');
+                        }}
+                      >
                         ✓ Adquirido
                       </span>
                     ) : (

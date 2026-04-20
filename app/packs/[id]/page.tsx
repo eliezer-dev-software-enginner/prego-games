@@ -1,11 +1,11 @@
 // app/packs/[id]/page.tsx
 
-import { adminAuth, adminDb } from '@/app/config/firebase-admin';
+import { adminAuth, adminDb } from '../../config/firebase-admin';
 
-import { Pack } from '@/app/admin/packs/page';
-import { Rom } from '@/app/admin/roms/page';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { Pack } from '../../admin/packs/page';
+import { Rom } from '../../admin/roms/page';
 import DownloadButton from './DownloadButton';
 import styles from './page.module.css';
 

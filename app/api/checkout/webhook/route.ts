@@ -2,10 +2,10 @@
 
 import { FieldValue, Timestamp } from 'firebase-admin/firestore';
 
-import { adminDb } from '@/app/config/firebase-admin';
-import client from '@/app/lib/mercadoPago';
 import { Payment } from 'mercadopago';
 import { NextResponse } from 'next/server';
+import { adminDb } from '../../../config/firebase-admin';
+import client from '../../../lib/mercadoPago';
 
 export async function POST(req: Request) {
   try {

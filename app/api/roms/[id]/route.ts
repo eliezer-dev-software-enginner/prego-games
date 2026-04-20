@@ -1,6 +1,6 @@
-import { verifyAdmin } from '@/app/admin/_utils/utils';
-import { adminDb } from '@/app/config/firebase-admin';
 import { NextResponse } from 'next/server';
+import { verifyAdmin } from '../../../admin/_utils/utils';
+import { adminDb } from '../../../config/firebase-admin';
 
 export async function PUT(
   req: Request,

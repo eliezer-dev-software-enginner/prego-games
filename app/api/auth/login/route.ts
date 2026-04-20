@@ -1,6 +1,6 @@
 // app/api/auth/login/route.ts
 
-import { adminAuth, adminDb } from '@/app/config/firebase-admin';
+import { adminAuth, adminDb } from '../../../config/firebase-admin';
 
 import { FieldValue } from 'firebase-admin/firestore';
 import { cookies } from 'next/headers';

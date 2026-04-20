@@ -1,12 +1,12 @@
 // app/api/checkout/rom/route.ts
 
-import { adminAuth, adminDb } from '@/app/config/firebase-admin';
+import { adminAuth, adminDb } from '../../../config/firebase-admin';
 
-import client from '@/app/lib/mercadoPago';
 import { Timestamp } from 'firebase-admin/firestore';
 import { Payment } from 'mercadopago';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import client from '../../../lib/mercadoPago';
 
 export async function POST(req: Request) {
   const session = (await cookies()).get('session');

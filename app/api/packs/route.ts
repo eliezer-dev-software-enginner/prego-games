@@ -1,8 +1,8 @@
-import { Pack } from '@/app/admin/packs/page';
-import { adminDb } from '@/app/config/firebase-admin';
 import { NextResponse } from 'next/server';
+import { verifyAdmin } from '../../admin/_utils/utils';
+import { Pack } from '../../admin/packs/page';
+import { adminDb } from '../../config/firebase-admin';
 //api/packs/route.ts
-import { verifyAdmin } from '@/app/admin/_utils/utils';
 
 export async function GET() {
   const snapshot = await adminDb.collection('apps/prego-games/packs').get();

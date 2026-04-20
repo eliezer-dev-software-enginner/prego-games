@@ -1,5 +1,5 @@
-import { verifyAdmin } from '@/app/admin/_utils/utils';
 import { NextResponse } from 'next/server';
+import { verifyAdmin } from '../../admin/_utils/utils';
 
 export async function GET() {
   const admin = await verifyAdmin();

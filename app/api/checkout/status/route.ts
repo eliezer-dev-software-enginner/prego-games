@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { adminDb } from '@/app/config/firebase-admin';
+import { adminDb } from '../../../config/firebase-admin';
 
 export async function GET(req: NextRequest) {
   const paymentId = req.nextUrl.searchParams.get('paymentId');

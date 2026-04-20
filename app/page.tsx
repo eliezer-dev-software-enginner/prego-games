@@ -1,6 +1,6 @@
-import { adminDb } from '@/app/config/firebase-admin';
 import Link from 'next/link';
 import { Pack } from './admin/packs/page';
+import { adminDb } from './config/firebase-admin';
 import styles from './page.module.css';
 
 async function getPacks(): Promise<Pack[]> {

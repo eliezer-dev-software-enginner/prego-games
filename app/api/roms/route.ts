@@ -1,12 +1,13 @@
 // app/api/roms/route.ts
-import { verifyAdmin } from '@/app/admin/_utils/utils';
-import { adminDb } from '@/app/config/firebase-admin';
+
 import { NextResponse } from 'next/server';
+import { verifyAdmin } from '../../admin/_utils/utils';
+import { adminDb } from '../../config/firebase-admin';
 
 export async function GET() {
   // Allow anyone to fetch the list of ROMs (for display) but without the download URL
   const snapshot = await adminDb.collection('apps/prego-games/roms').get();
-  const roms = snapshot.docs.map(doc => {
+  const roms = snapshot.docs.map((doc) => {
     const data = doc.data();
     // Return only the fields needed for display (exclude pathRef for security)
     const { pathRef, ...rest } = data;

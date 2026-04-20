@@ -4,12 +4,12 @@
 import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
-import PixModal from '@/app/components/PixModal/PixModal';
-import { auth } from '@/app/config/firebase';
-import { useRouter } from 'next/navigation';
 import { Pack } from '../admin/packs/page';
-import styles from './page.module.css';
+import PixModal from '../components/PixModal/PixModal';
+import { auth } from '../config/firebase';
 import { setSEOMetadata } from '../lib/common';
+import styles from './page.module.css';
+import { useRouter } from 'next/navigation';
 
 interface PixData {
   success: boolean;
@@ -67,10 +67,12 @@ export default function Page() {
   useEffect(() => {
     setSEOMetadata({
       title: 'Prego Games - Packs de Jogos Retro',
-      description: 'Compre packs completos de jogos retro com acesso vitalício.',
+      description:
+        'Compre packs completos de jogos retro com acesso vitalício.',
       url: 'https://pregogames.com/packs',
       image: 'https://pregogames.com/og-packs.png',
-      keywords: 'packs de jogos, jogos retro, coleções, mega pack, nintendo, snes',
+      keywords:
+        'packs de jogos, jogos retro, coleções, mega pack, nintendo, snes',
     });
   }, []);
 

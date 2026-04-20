@@ -3,8 +3,8 @@
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 
-import { storage } from '@/app/config/firebase';
 import Link from 'next/link';
+import { storage } from '../../config/firebase';
 import styles from './page.module.css';
 
 export type Rom = {
@@ -325,7 +325,9 @@ export default function Page() {
                   <div className={styles.cardBody}>
                     <h3 className={styles.cardTitle}>{rom.titulo}</h3>
                     <p className={styles.cardDesc}>{rom.descricao}</p>
-                    <p className={styles.cardPrice}>R$ {rom.preco?.toFixed(2)}</p>
+                    <p className={styles.cardPrice}>
+                      R$ {rom.preco?.toFixed(2)}
+                    </p>
                     <div className={styles.cardActions}>
                       <button
                         className={styles.btnEdit}

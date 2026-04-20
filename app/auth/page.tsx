@@ -4,10 +4,10 @@
 
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
-import { auth } from '@/app/config/firebase';
+import { auth } from '../config/firebase';
+import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import styles from './page.module.css';
 
 export default function Page() {
   const router = useRouter();

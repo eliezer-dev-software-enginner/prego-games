@@ -1,5 +1,5 @@
-import { adminAuth } from '@/app/config/firebase-admin';
 import { cookies } from 'next/headers';
+import { adminAuth } from '../../config/firebase-admin';
 
 export async function verifyAdmin() {
   const session = (await cookies()).get('session');

@@ -4,12 +4,12 @@
 import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
-import PixModal from '@/app/components/PixModal/PixModal';
-import { auth } from '@/app/config/firebase';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import styles from './page.module.css';
+import { useRouter } from 'next/navigation';
+import PixModal from '../components/PixModal/PixModal';
+import { auth } from '../config/firebase';
 import { setSEOMetadata } from '../lib/common';
+import styles from './page.module.css';
 
 interface Pack {
   id: string;
@@ -46,7 +46,10 @@ export default function Page() {
   const [ownedPackIds, setOwnedPackIds] = useState<string[]>([]);
   const [ownedRomIds, setOwnedRomIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedItem, setSelectedItem] = useState<{ type: 'pack' | 'rom'; data: Pack | Rom } | null>(null);
+  const [selectedItem, setSelectedItem] = useState<{
+    type: 'pack' | 'rom';
+    data: Pack | Rom;
+  } | null>(null);
   const [pixData, setPixData] = useState<PixData | null>(null);
   const [buying, setBuying] = useState(false);
 
@@ -69,10 +72,12 @@ export default function Page() {
   useEffect(() => {
     setSEOMetadata({
       title: 'Prego Games - Biblioteca de Jogos Retro',
-      description: 'Acesse sua biblioteca de jogos retro. Compre packs ou jogos avulsos.',
+      description:
+        'Acesse sua biblioteca de jogos retro. Compre packs ou jogos avulsos.',
       url: 'https://pregogames.com/home',
       image: 'https://pregogames.com/og-image.png',
-      keywords: 'jogos retro, packs de jogos, roms, nintendo, snes, mega drive, playstation',
+      keywords:
+        'jogos retro, packs de jogos, roms, nintendo, snes, mega drive, playstation',
     });
   }, []);
 
@@ -111,10 +116,12 @@ export default function Page() {
     setBuying(true);
 
     try {
-      const endpoint = selectedItem.type === 'pack' ? '/api/checkout' : '/api/checkout/rom';
-      const body = selectedItem.type === 'pack' 
-        ? { packId: selectedItem.data.id }
-        : { romId: selectedItem.data.id };
+      const endpoint =
+        selectedItem.type === 'pack' ? '/api/checkout' : '/api/checkout/rom';
+      const body =
+        selectedItem.type === 'pack'
+          ? { packId: selectedItem.data.id }
+          : { romId: selectedItem.data.id };
 
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -155,10 +162,10 @@ export default function Page() {
 
   if (!user) return null;
 
-  const myPacks = packs.filter(p => ownedPackIds.includes(p.id));
-  const myRoms = roms.filter(r => ownedRomIds.includes(r.id));
-  const availablePacks = packs.filter(p => !ownedPackIds.includes(p.id));
-  const availableRoms = roms.filter(r => !ownedRomIds.includes(r.id));
+  const myPacks = packs.filter((p) => ownedPackIds.includes(p.id));
+  const myRoms = roms.filter((r) => ownedRomIds.includes(r.id));
+  const availablePacks = packs.filter((p) => !ownedPackIds.includes(p.id));
+  const availableRoms = roms.filter((r) => !ownedRomIds.includes(r.id));
 
   return (
     <main className={styles.root}>
@@ -169,19 +176,29 @@ export default function Page() {
         <div className={styles.headerRight}>
           <div className={styles.userInfo}>
             {user.photoURL ? (
-              <img src={user.photoURL} alt={user.displayName ?? ''} className={styles.userAvatar} />
+              <img
+                src={user.photoURL}
+                alt={user.displayName ?? ''}
+                className={styles.userAvatar}
+              />
             ) : (
               <div className={styles.userAvatarPlaceholder}>👤</div>
             )}
-            <span className={styles.userName}>{user.displayName?.split(' ')[0]}</span>
+            <span className={styles.userName}>
+              {user.displayName?.split(' ')[0]}
+            </span>
           </div>
-          <button className={styles.btnLogout} onClick={handleLogout}>Sair</button>
+          <button className={styles.btnLogout} onClick={handleLogout}>
+            Sair
+          </button>
         </div>
       </header>
 
       <div className={styles.hero}>
         <span className={styles.heroLabel}>Biblioteca</span>
-        <h1 className={styles.heroTitle}>Olá, {user.displayName?.split(' ')[0]}!</h1>
+        <h1 className={styles.heroTitle}>
+          Olá, {user.displayName?.split(' ')[0]}!
+        </h1>
         <p className={styles.heroSub}>Bem-vindo à sua biblioteca de jogos.</p>
       </div>
 
@@ -202,9 +219,17 @@ export default function Page() {
 
           <div className={styles.grid}>
             {myPacks.map((pack) => (
-              <Link href={`/packs/${pack.id}`} key={pack.id} className={styles.card}>
+              <Link
+                href={`/packs/${pack.id}`}
+                key={pack.id}
+                className={styles.card}
+              >
                 {pack.capaRef ? (
-                  <img src={pack.capaRef} alt={pack.titulo} className={styles.cardCover} />
+                  <img
+                    src={pack.capaRef}
+                    alt={pack.titulo}
+                    className={styles.cardCover}
+                  />
                 ) : (
                   <div className={styles.cardCoverPlaceholder}>🎮</div>
                 )}
@@ -221,19 +246,25 @@ export default function Page() {
               <a
                 key={rom.id}
                 href={rom.pathRef}
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
                 className={styles.card}
               >
                 {rom.capaRef ? (
-                  <img src={rom.capaRef} alt={rom.titulo} className={styles.cardCover} />
+                  <img
+                    src={rom.capaRef}
+                    alt={rom.titulo}
+                    className={styles.cardCover}
+                  />
                 ) : (
                   <div className={styles.cardCoverPlaceholder}>🕹️</div>
                 )}
                 <div className={styles.cardBody}>
                   <h3 className={styles.cardTitle}>{rom.titulo}</h3>
                   <div className={styles.cardMeta}>
-                    <span className={styles.cardPrice}>R$ {rom.preco?.toFixed(2)}</span>
+                    <span className={styles.cardPrice}>
+                      R$ {rom.preco?.toFixed(2)}
+                    </span>
                     <span className={styles.cardBadgeOwned}>✓ Adquirido</span>
                   </div>
                 </div>
@@ -260,7 +291,11 @@ export default function Page() {
             {availablePacks.slice(0, 3).map((pack) => (
               <div key={pack.id} className={styles.card}>
                 {pack.capaRef ? (
-                  <img src={pack.capaRef} alt={pack.titulo} className={styles.cardCover} />
+                  <img
+                    src={pack.capaRef}
+                    alt={pack.titulo}
+                    className={styles.cardCover}
+                  />
                 ) : (
                   <div className={styles.cardCoverPlaceholder}>🎮</div>
                 )}
@@ -304,7 +339,11 @@ export default function Page() {
             {availableRoms.slice(0, 4).map((rom) => (
               <div key={rom.id} className={styles.card}>
                 {rom.capaRef ? (
-                  <img src={rom.capaRef} alt={rom.titulo} className={styles.cardCover} />
+                  <img
+                    src={rom.capaRef}
+                    alt={rom.titulo}
+                    className={styles.cardCover}
+                  />
                 ) : (
                   <div className={styles.cardCoverPlaceholder}>🕹️</div>
                 )}
@@ -312,7 +351,9 @@ export default function Page() {
                   <h3 className={styles.cardTitle}>{rom.titulo}</h3>
                   <p className={styles.cardDesc}>{rom.descricao}</p>
                   <div className={styles.cardMeta}>
-                    <span className={styles.cardPrice}>R$ {rom.preco?.toFixed(2)}</span>
+                    <span className={styles.cardPrice}>
+                      R$ {rom.preco?.toFixed(2)}
+                    </span>
                     <span className={styles.cardBadge}>Avulso</span>
                   </div>
                   <button
@@ -336,7 +377,11 @@ export default function Page() {
         <div className={styles.overlay} onClick={handleCloseModals}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             {selectedItem.data.capaRef ? (
-              <img src={selectedItem.data.capaRef} alt={selectedItem.data.titulo} className={styles.modalCover} />
+              <img
+                src={selectedItem.data.capaRef}
+                alt={selectedItem.data.titulo}
+                className={styles.modalCover}
+              />
             ) : (
               <div className={styles.modalCoverPlaceholder}>🎮</div>
             )}
@@ -346,7 +391,9 @@ export default function Page() {
               <div className={styles.modalInfo}>
                 <div className={styles.modalInfoItem}>
                   <span className={styles.modalInfoLabel}>Preço</span>
-                  <span className={styles.modalInfoValue}>R$ {selectedItem.data.preco?.toFixed(2)}</span>
+                  <span className={styles.modalInfoValue}>
+                    R$ {selectedItem.data.preco?.toFixed(2)}
+                  </span>
                 </div>
                 <div className={styles.modalInfoItem}>
                   <span className={styles.modalInfoLabel}>Acesso</span>
@@ -358,8 +405,17 @@ export default function Page() {
                 </div>
               </div>
               <div className={styles.modalActions}>
-                <button className={styles.btnCancel} onClick={handleCloseModals}>Cancelar</button>
-                <button className={styles.btnConfirm} onClick={handleBuy} disabled={buying}>
+                <button
+                  className={styles.btnCancel}
+                  onClick={handleCloseModals}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className={styles.btnConfirm}
+                  onClick={handleBuy}
+                  disabled={buying}
+                >
                   {buying ? 'Gerando PIX...' : 'Pagar com PIX'}
                 </button>
               </div>
