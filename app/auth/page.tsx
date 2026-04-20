@@ -4,10 +4,10 @@
 
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
-import { auth } from '../config/firebase';
-import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { auth } from '../config/firebase';
+import styles from './page.module.css';
 
 export default function Page() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function Page() {
         body: JSON.stringify({ idToken }),
       });
 
-      router.push('/packs');
+      router.push('/home');
     } catch (e: any) {
       if (e.code !== 'auth/popup-closed-by-user') {
         alert('Erro ao entrar. Tente novamente.');
@@ -43,7 +43,7 @@ export default function Page() {
         <div className={styles.leftGrid} />
         <div className={styles.leftGlow} />
 
-        <a href='/' className={styles.logo}>
+        <a href='/home' className={styles.logo}>
           Prego<span className={styles.logoAccent}>.</span>Games
         </a>
 
