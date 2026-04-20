@@ -19,6 +19,8 @@ export type Rom = {
   capaRef: string;
   preco: number;
   type: romType;
+  ranking: number;
+  dtMillis: number;
 };
 
 export default function Page() {

@@ -2,6 +2,7 @@
 
 import { NextResponse } from 'next/server';
 import { verifyAdmin } from '../../admin/_utils/utils';
+import { Rom } from '../../admin/roms/page';
 import { adminDb } from '../../config/firebase-admin';
 
 export async function GET() {
@@ -22,7 +23,9 @@ export async function POST(req: Request) {
   if (!admin)
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const body = await req.json();
+  const body: Rom = await req.json();
+  body.dtMillis = Date.now();
+  body.ranking = 0;
 
   // Ensure we don't store the pathRef in the body? Actually, we want to store it in the database.
   // The pathRef is needed for the download, so we keep it in the database.
