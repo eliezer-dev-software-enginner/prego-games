@@ -25,7 +25,7 @@ export default function Page() {
   const [roms, setRoms] = useState<Rom[]>([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState('0');
   const [type, setType] = useState<romType>('SNES');
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [romFile, setRomFile] = useState<File | null>(null);
@@ -92,7 +92,8 @@ export default function Page() {
   }
 
   async function handleSaveUpdate() {
-    if (!title || !description) return alert('Preencha título e descrição');
+    //if (!title || !description) return alert('Preencha título e descrição');
+    if (!title) return alert('Preencha título');
     if (!price) return alert('Preencha o preço');
     if (!editingId && (!coverFile || !romFile))
       return alert('Selecione a capa e o arquivo do jogo');
