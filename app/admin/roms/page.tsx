@@ -1,4 +1,5 @@
 'use client';
+//app/admin/roms/page.tsx
 
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useEffect, useState } from 'react';
@@ -19,8 +20,10 @@ export type Rom = {
   capaRef: string;
   preco: number;
   type: romType;
-  ranking: number;
+  vendas: number;
   dtMillis: number;
+  traduzido: boolean;
+  dublado: boolean;
 };
 
 export default function Page() {
@@ -29,6 +32,8 @@ export default function Page() {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('0');
   const [type, setType] = useState<romType>('SNES');
+  const [traduzido, setTraduzido] = useState(false);
+  const [dublado, setDublado] = useState(false);
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [romFile, setRomFile] = useState<File | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -52,6 +57,8 @@ export default function Page() {
     setDescription(rom.descricao);
     setPrice(rom.preco?.toString() ?? '');
     setType(rom.type ?? 'SNES');
+    setTraduzido(rom.traduzido ?? false);
+    setDublado(rom.dublado ?? false);
     setCoverFile(null);
     setRomFile(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -61,8 +68,10 @@ export default function Page() {
     setEditingId(null);
     setTitle('');
     setDescription('');
-    setPrice('');
+    setPrice('0');
     setType('SNES');
+    setTraduzido(false);
+    setDublado(false);
     setCoverFile(null);
     setRomFile(null);
     setCoverProgress(null);
@@ -94,7 +103,6 @@ export default function Page() {
   }
 
   async function handleSaveUpdate() {
-    //if (!title || !description) return alert('Preencha título e descrição');
     if (!title) return alert('Preencha título');
     if (!price) return alert('Preencha o preço');
     if (!editingId && (!coverFile || !romFile))
@@ -136,6 +144,8 @@ export default function Page() {
           pathRef,
           preco: parseFloat(price),
           type,
+          traduzido,
+          dublado,
         }),
       });
 
@@ -241,6 +251,28 @@ export default function Page() {
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* Checkboxes legendado / dublado */}
+            <div className={styles.checkboxGroup}>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type='checkbox'
+                  className={styles.checkbox}
+                  checked={traduzido}
+                  onChange={(e) => setTraduzido(e.target.checked)}
+                />
+                Legendado
+              </label>
+              <label className={styles.checkboxLabel}>
+                <input
+                  type='checkbox'
+                  className={styles.checkbox}
+                  checked={dublado}
+                  onChange={(e) => setDublado(e.target.checked)}
+                />
+                Dublado
+              </label>
             </div>
 
             <div className={styles.fieldGroup}>
@@ -358,6 +390,12 @@ export default function Page() {
                     <div className={styles.cardMeta}>
                       {rom.type && (
                         <span className={styles.typeBadge}>{rom.type}</span>
+                      )}
+                      {rom.traduzido && (
+                        <span className={styles.metaBadge}>Leg</span>
+                      )}
+                      {rom.dublado && (
+                        <span className={styles.metaBadge}>Dub</span>
                       )}
                       <p className={styles.cardPrice}>
                         R$ {rom.preco?.toFixed(2)}

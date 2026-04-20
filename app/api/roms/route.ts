@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
   const body: Rom = await req.json();
   body.dtMillis = Date.now();
-  body.ranking = 0;
+  body.vendas = 0;
 
   // Ensure we don't store the pathRef in the body? Actually, we want to store it in the database.
   // The pathRef is needed for the download, so we keep it in the database.

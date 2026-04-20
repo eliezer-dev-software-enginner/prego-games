@@ -170,7 +170,7 @@ export default function Page() {
   return (
     <main className={styles.root}>
       <header className={styles.header}>
-        <Link href='/' className={styles.logo}>
+        <Link href='/home' className={styles.logo}>
           Prego<span className={styles.logoAccent}>.</span>Games
         </Link>
         <div className={styles.headerRight}>
