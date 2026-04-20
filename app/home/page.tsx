@@ -6,9 +6,11 @@ import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Rom } from '../admin/roms/page';
 import PixModal from '../components/PixModal/PixModal';
 import { auth } from '../config/firebase';
 import { setSEOMetadata } from '../lib/common';
+import modalStyles from '../roms/page.module.css';
 import styles from './page.module.css';
 
 interface Pack {
@@ -17,15 +19,6 @@ interface Pack {
   descricao: string;
   capaRef: string;
   gamesIds?: string[];
-  preco: number;
-}
-
-interface Rom {
-  id: string;
-  titulo: string;
-  descricao: string;
-  capaRef: string;
-  pathRef: string;
   preco: number;
 }
 
@@ -374,45 +367,52 @@ export default function Page() {
 
       {/* Modal */}
       {selectedItem && !pixData && (
-        <div className={styles.overlay} onClick={handleCloseModals}>
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={modalStyles.overlay} onClick={handleCloseModals}>
+          <div
+            className={modalStyles.modal}
+            onClick={(e) => e.stopPropagation()}
+          >
             {selectedItem.data.capaRef ? (
               <img
                 src={selectedItem.data.capaRef}
                 alt={selectedItem.data.titulo}
-                className={styles.modalCover}
+                className={modalStyles.modalCover}
               />
             ) : (
-              <div className={styles.modalCoverPlaceholder}>🎮</div>
+              <div className={modalStyles.modalCoverPlaceholder}>🎮</div>
             )}
-            <div className={styles.modalBody}>
-              <h2 className={styles.modalTitle}>{selectedItem.data.titulo}</h2>
-              <p className={styles.modalDesc}>{selectedItem.data.descricao}</p>
-              <div className={styles.modalInfo}>
-                <div className={styles.modalInfoItem}>
-                  <span className={styles.modalInfoLabel}>Preço</span>
-                  <span className={styles.modalInfoValue}>
+            <div className={modalStyles.modalBody}>
+              <h2 className={modalStyles.modalTitle}>
+                {selectedItem.data.titulo}
+              </h2>
+              <p className={modalStyles.modalDesc}>
+                {selectedItem.data.descricao}
+              </p>
+              <div className={modalStyles.modalInfo}>
+                <div className={modalStyles.modalInfoItem}>
+                  <span className={modalStyles.modalInfoLabel}>Preço</span>
+                  <span className={modalStyles.modalInfoValue}>
                     R$ {selectedItem.data.preco?.toFixed(2)}
                   </span>
                 </div>
-                <div className={styles.modalInfoItem}>
-                  <span className={styles.modalInfoLabel}>Acesso</span>
-                  <span className={styles.modalInfoValue}>Vitalício</span>
+                <div className={modalStyles.modalInfoItem}>
+                  <span className={modalStyles.modalInfoLabel}>Acesso</span>
+                  <span className={modalStyles.modalInfoValue}>Vitalício</span>
                 </div>
-                <div className={styles.modalInfoItem}>
-                  <span className={styles.modalInfoLabel}>Pagamento</span>
-                  <span className={styles.modalInfoValue}>PIX</span>
+                <div className={modalStyles.modalInfoItem}>
+                  <span className={modalStyles.modalInfoLabel}>Pagamento</span>
+                  <span className={modalStyles.modalInfoValue}>PIX</span>
                 </div>
               </div>
-              <div className={styles.modalActions}>
+              <div className={modalStyles.modalActions}>
                 <button
-                  className={styles.btnCancel}
+                  className={modalStyles.btnCancel}
                   onClick={handleCloseModals}
                 >
                   Cancelar
                 </button>
                 <button
-                  className={styles.btnConfirm}
+                  className={modalStyles.btnConfirm}
                   onClick={handleBuy}
                   disabled={buying}
                 >
