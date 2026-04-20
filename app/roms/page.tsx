@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import PixModal from '../components/PixModal/PixModal';
-// Firebase client-side auth
-import { useRouter } from 'next/navigation';
 import { auth } from '../config/firebase';
 import { setSEOMetadata } from '../lib/common';
 import styles from './page.module.css';
+// Firebase client-side auth
+import { useRouter } from 'next/navigation';
 
 interface Rom {
   id: string;
@@ -140,7 +140,7 @@ export default function Page() {
   return (
     <div className={styles.root}>
       <header className={styles.header}>
-        <Link href='/' className={styles.logo}>
+        <Link href='/home' className={styles.logo}>
           Prego<span className={styles.logoAccent}>.</span>Games
         </Link>
       </header>

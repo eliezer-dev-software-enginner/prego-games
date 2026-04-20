@@ -202,7 +202,9 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    transform 0.15s;
   width: 100%;
 }
 
@@ -309,6 +311,10 @@
   color: #7a7368;
   line-height: 1.6;
   margin: 0 0 20px;
+
+  /* scroll */
+  max-height: 120px;
+  overflow-y: auto;
 }
 
 .modalInfo {
@@ -360,7 +366,9 @@
   border: 1px solid #1e1e1e;
   border-radius: 8px;
   cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
 }
 
 .btnCancel:hover {
