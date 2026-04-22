@@ -15,7 +15,7 @@ import {
 import { Button } from '../../../components/ui/button';
 import { Input } from '../../../components/ui/input';
 import { storage } from '../../config/firebase';
-import { Rom } from '../roms/page';
+import { Rom } from '../../types/rom.type';
 import s from './page.module.css';
 
 export type Pack = {

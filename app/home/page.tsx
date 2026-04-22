@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Rom } from '../admin/roms/page';
 import PixModal from '../components/PixModal/PixModal';
 import { auth } from '../config/firebase';
 import { setSEOMetadata } from '../lib/common';
 import modalStyles from '../roms/page.module.css';
+import { Rom } from '../types/rom.type';
 import styles from './page.module.css';
 
 interface Pack {

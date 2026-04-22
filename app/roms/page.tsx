@@ -5,10 +5,10 @@ import { User, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
-import { Rom } from '../admin/roms/page';
 import PixModal from '../components/PixModal/PixModal';
 import { auth } from '../config/firebase';
 import { setSEOMetadata } from '../lib/common';
+import { Rom } from '../types/rom.type';
 import styles from './page.module.css';
 // Firebase client-side auth
 import { useRouter } from 'next/navigation';

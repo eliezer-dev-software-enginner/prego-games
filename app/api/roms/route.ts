@@ -2,8 +2,8 @@
 
 import { NextResponse } from 'next/server';
 import { verifyAdmin } from '../../admin/_utils/utils';
-import { Rom } from '../../admin/roms/page';
 import { adminDb } from '../../config/firebase-admin';
+import { Rom } from '../../types/rom.type';
 
 export async function GET() {
   // Allow anyone to fetch the list of ROMs (for display) but without the download URL

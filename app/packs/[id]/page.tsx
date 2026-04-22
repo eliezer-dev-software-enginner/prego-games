@@ -5,7 +5,7 @@ import { adminAuth, adminDb } from '../../config/firebase-admin';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Pack } from '../../admin/packs/page';
-import { Rom } from '../../admin/roms/page';
+import { Rom } from '../../types/rom.type';
 import DownloadButton from './DownloadButton';
 import styles from './page.module.css';
 

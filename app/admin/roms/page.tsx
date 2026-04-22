@@ -3,35 +3,20 @@
 
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useEffect, useState } from 'react';
+import { Rom, RomType } from '../../types/rom.type';
 
 import Link from 'next/link';
 import { storage } from '../../config/firebase';
 import styles from './page.module.css';
 
-type romType = 'PS2' | 'SNES' | 'GBA';
-
-const ROM_TYPES: romType[] = ['PS2', 'SNES', 'GBA'];
-
-export type Rom = {
-  id: string;
-  titulo: string;
-  descricao: string;
-  pathRef: string;
-  capaRef: string;
-  preco: number;
-  type: romType;
-  vendas: number;
-  dtMillis: number;
-  traduzido: boolean;
-  dublado: boolean;
-};
+const ROM_TYPES: RomType[] = ['PS2', 'SNES', 'GBA'];
 
 export default function Page() {
   const [roms, setRoms] = useState<Rom[]>([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('0');
-  const [type, setType] = useState<romType>('SNES');
+  const [type, setType] = useState<RomType>('SNES');
   const [traduzido, setTraduzido] = useState(false);
   const [dublado, setDublado] = useState(false);
   const [coverFile, setCoverFile] = useState<File | null>(null);
@@ -40,6 +25,12 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [coverProgress, setCoverProgress] = useState<number | null>(null);
   const [romProgress, setRomProgress] = useState<number | null>(null);
+
+  const [loteFile, setLoteFile] = useState<File | null>(null);
+  const [lotePreview, setLotePreview] = useState<
+    { name: string; type?: string }[] | null
+  >(null);
+  const [loteLoading, setLoteLoading] = useState(false);
 
   useEffect(() => {
     fetchRoms();
@@ -173,6 +164,56 @@ export default function Page() {
   const showProgress =
     loading && (coverProgress !== null || romProgress !== null);
 
+  function handleLoteFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    setLoteFile(file);
+    setLotePreview(null);
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const parsed = JSON.parse(ev.target?.result as string);
+        if (!Array.isArray(parsed)) throw new Error();
+        setLotePreview(
+          parsed.map((r: any) => ({ name: r.name, type: r.type })),
+        );
+      } catch {
+        alert('JSON inválido. Esperado um array de ROMs.');
+        setLoteFile(null);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  async function handleLoteImport() {
+    if (!loteFile) return;
+
+    try {
+      setLoteLoading(true);
+      const text = await loteFile.text();
+      const body = JSON.parse(text);
+
+      const res = await fetch('/api/roms/lote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) throw new Error('Erro ao importar lote');
+      const { message } = await res.json();
+      alert(message);
+      setLoteFile(null);
+      setLotePreview(null);
+      await fetchRoms();
+    } catch (e: any) {
+      alert(e.message);
+    } finally {
+      setLoteLoading(false);
+    }
+  }
+
   return (
     <div className={styles.root}>
       <header className={styles.header}>
@@ -183,6 +224,57 @@ export default function Page() {
       </header>
 
       <div className={styles.layout}>
+        {/* Importar lote */}
+        <div className={styles.lotePanel}>
+          <h2 className={styles.formTitle}>Importar lote (JSON)</h2>
+
+          <label className={styles.loteDropzone} htmlFor='lote-input'>
+            <span className={styles.loteIcon}>📦</span>
+            <span className={styles.loteLabel}>
+              {loteFile ? loteFile.name : 'Selecionar arquivo .json'}
+            </span>
+            <input
+              id='lote-input'
+              type='file'
+              accept='.json,application/json'
+              className={styles.loteInput}
+              onChange={handleLoteFileChange}
+            />
+          </label>
+
+          {lotePreview && (
+            <div className={styles.lotePreview}>
+              <p className={styles.lotePreviewCount}>
+                {lotePreview.length} jogo{lotePreview.length !== 1 ? 's' : ''}{' '}
+                encontrado{lotePreview.length !== 1 ? 's' : ''}
+              </p>
+              <ul className={styles.loteList}>
+                {lotePreview.slice(0, 5).map((r, i) => (
+                  <li key={i} className={styles.loteListItem}>
+                    <span className={styles.loteListName}>{r.name}</span>
+                    {r.type && (
+                      <span className={styles.typeBadge}>{r.type}</span>
+                    )}
+                  </li>
+                ))}
+                {lotePreview.length > 5 && (
+                  <li className={styles.loteListMore}>
+                    +{lotePreview.length - 5} mais...
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
+
+          <button
+            className={styles.btnSave}
+            onClick={handleLoteImport}
+            disabled={!loteFile || loteLoading}
+          >
+            {loteLoading ? 'Importando...' : 'Importar lote'}
+          </button>
+        </div>
+
         {/* Formulário */}
         <div className={styles.formPanel}>
           <h2 className={styles.formTitle}>
@@ -243,7 +335,7 @@ export default function Page() {
                 id='type'
                 className={styles.input}
                 value={type}
-                onChange={(e) => setType(e.target.value as romType)}
+                onChange={(e) => setType(e.target.value as RomType)}
               >
                 {ROM_TYPES.map((t) => (
                   <option key={t} value={t}>
