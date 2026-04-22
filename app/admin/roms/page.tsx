@@ -5,7 +5,7 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 import { Rom, RomType } from '../../types/rom.type';
 
-import Link from 'next/link';
+import HeaderLogo from '../../components/HeaderLogo';
 import { storage } from '../../config/firebase';
 import styles from './page.module.css';
 
@@ -216,12 +216,7 @@ export default function Page() {
 
   return (
     <div className={styles.root}>
-      <header className={styles.header}>
-        <Link href='/home' className={styles.logo}>
-          Prego<span className={styles.logoAccent}>.</span>Games
-        </Link>
-        <span className={styles.adminBadge}>Admin</span>
-      </header>
+      <HeaderLogo />
 
       <div className={styles.layout}>
         {/* Importar lote */}

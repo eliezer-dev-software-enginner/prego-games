@@ -173,6 +173,25 @@ export default function Page() {
                     )}
                   </div>
                   <div className={styles.cardBody}>
+                    {/* badges de plataforma e localização */}
+                    <div className={styles.cardBadges}>
+                      {rom.type && (
+                        <span className={`${styles.badge} ${styles.badgeType}`}>
+                          {rom.type}
+                        </span>
+                      )}
+                      {rom.traduzido && (
+                        <span className={`${styles.badge} ${styles.badgeLeg}`}>
+                          LEG
+                        </span>
+                      )}
+                      {rom.dublado && (
+                        <span className={`${styles.badge} ${styles.badgeDub}`}>
+                          DUB
+                        </span>
+                      )}
+                    </div>
+
                     <h2 className={styles.cardTitle}>{rom.titulo}</h2>
                     <p className={styles.cardDesc}>{rom.descricao}</p>
                     <p className={styles.cardPrice}>
@@ -231,12 +250,24 @@ export default function Page() {
                   </span>
                 </div>
                 <div className={styles.modalInfoItem}>
-                  <span className={styles.modalInfoLabel}>Acesso</span>
-                  <span className={styles.modalInfoValue}>Vitalício</span>
+                  <span className={styles.modalInfoLabel}>Plataforma</span>
+                  <span className={styles.modalInfoValue}>
+                    {selectedRom.type ?? '—'}
+                  </span>
                 </div>
                 <div className={styles.modalInfoItem}>
-                  <span className={styles.modalInfoLabel}>Pagamento</span>
-                  <span className={styles.modalInfoValue}>PIX</span>
+                  <span className={styles.modalInfoLabel}>Idioma</span>
+                  <span className={styles.modalInfoValue}>
+                    {selectedRom.dublado
+                      ? 'Dublado'
+                      : selectedRom.traduzido
+                        ? 'Traduzido PT-BR'
+                        : 'Original'}
+                  </span>
+                </div>
+                <div className={styles.modalInfoItem}>
+                  <span className={styles.modalInfoLabel}>Acesso</span>
+                  <span className={styles.modalInfoValue}>Vitalício</span>
                 </div>
               </div>
               <div className={styles.modalActions}>

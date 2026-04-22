@@ -4,12 +4,12 @@
 import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
+import { useRouter } from 'next/navigation';
 import { Pack } from '../admin/packs/page';
 import PixModal from '../components/PixModal/PixModal';
 import { auth } from '../config/firebase';
 import { setSEOMetadata } from '../lib/common';
 import styles from './page.module.css';
-import { useRouter } from 'next/navigation';
 
 interface PixData {
   success: boolean;
@@ -147,7 +147,7 @@ export default function Page() {
     <div className={styles.root}>
       {/* Header */}
       <header className={styles.header}>
-        <a href='/' className={styles.logo}>
+        <a href='/home' className={styles.logo}>
           Prego<span className={styles.logoAccent}>.</span>Games
         </a>
         <div className={styles.headerRight}>
