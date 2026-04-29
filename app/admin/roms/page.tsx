@@ -528,6 +528,18 @@ export default function Page() {
                       <p className={styles.cardPrice}>
                         R$ {rom.preco?.toFixed(2)}
                       </p>
+
+                      {rom.shortUrl && (
+                        <a
+                          href={rom.shortUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={styles.shortUrlBadge}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          🔗 {rom.shortUrl.replace("https://", "")}
+                        </a>
+                      )}
                     </div>
                     <div className={styles.cardActions}>
                       <button
