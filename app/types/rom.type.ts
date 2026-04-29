@@ -12,6 +12,7 @@ export type Rom = {
   dtMillis: number;
   traduzido: boolean;
   dublado: boolean;
+  shortUrl?: string; // link encurtado do pathRef (gerado via EncurtaNet)
 };
 
-export type RomType = 'PS2' | 'SNES' | 'GBA';
+export type RomType = "PS2" | "SNES" | "GBA";

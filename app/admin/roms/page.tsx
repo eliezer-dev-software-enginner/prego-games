@@ -1,22 +1,22 @@
-'use client';
+"use client";
 //app/admin/roms/page.tsx
 
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { useEffect, useState } from 'react';
-import { Rom, RomType } from '../../types/rom.type';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useEffect, useState } from "react";
+import { Rom, RomType } from "../../types/rom.type";
 
-import HeaderLogo from '../../components/HeaderLogo';
-import { storage } from '../../config/firebase';
-import styles from './page.module.css';
+import HeaderLogo from "../../components/HeaderLogo";
+import { storage } from "../../config/firebase";
+import styles from "./page.module.css";
 
-const ROM_TYPES: RomType[] = ['PS2', 'SNES', 'GBA'];
+const ROM_TYPES: RomType[] = ["PS2", "SNES", "GBA"];
 
 export default function Page() {
   const [roms, setRoms] = useState<Rom[]>([]);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('0');
-  const [type, setType] = useState<RomType>('SNES');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("0");
+  const [type, setType] = useState<RomType>("SNES");
   const [traduzido, setTraduzido] = useState(false);
   const [dublado, setDublado] = useState(false);
   const [coverFile, setCoverFile] = useState<File | null>(null);
@@ -25,6 +25,9 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [coverProgress, setCoverProgress] = useState<number | null>(null);
   const [romProgress, setRomProgress] = useState<number | null>(null);
+
+  const [encurtandoTodos, setEncurtandoTodos] = useState(false);
+  const [encurtarResult, setEncurtarResult] = useState<string | null>(null);
 
   const [loteFile, setLoteFile] = useState<File | null>(null);
   const [lotePreview, setLotePreview] = useState<
@@ -37,7 +40,7 @@ export default function Page() {
   }, []);
 
   async function fetchRoms() {
-    const res = await fetch('/api/roms');
+    const res = await fetch("/api/roms");
     const data = await res.json();
     setRoms(data);
   }
@@ -46,21 +49,21 @@ export default function Page() {
     setEditingId(rom.id);
     setTitle(rom.titulo);
     setDescription(rom.descricao);
-    setPrice(rom.preco?.toString() ?? '');
-    setType(rom.type ?? 'SNES');
+    setPrice(rom.preco?.toString() ?? "");
+    setType(rom.type ?? "SNES");
     setTraduzido(rom.traduzido ?? false);
     setDublado(rom.dublado ?? false);
     setCoverFile(null);
     setRomFile(null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function handleClear() {
     setEditingId(null);
-    setTitle('');
-    setDescription('');
-    setPrice('0');
-    setType('SNES');
+    setTitle("");
+    setDescription("");
+    setPrice("0");
+    setType("SNES");
     setTraduzido(false);
     setDublado(false);
     setCoverFile(null);
@@ -82,7 +85,7 @@ export default function Page() {
       const storageRef = ref(storage, path);
       const task = uploadBytesResumable(storageRef, file, metadata);
       task.on(
-        'state_changed',
+        "state_changed",
         (snap) =>
           onProgress(
             Math.round((snap.bytesTransferred / snap.totalBytes) * 100),
@@ -94,20 +97,20 @@ export default function Page() {
   }
 
   async function handleSaveUpdate() {
-    if (!title) return alert('Preencha título');
-    if (!price) return alert('Preencha o preço');
+    if (!title) return alert("Preencha título");
+    if (!price) return alert("Preencha o preço");
     if (!editingId && (!coverFile || !romFile))
-      return alert('Selecione a capa e o arquivo do jogo');
+      return alert("Selecione a capa e o arquivo do jogo");
 
     try {
       setLoading(true);
 
       let capaRef = editingId
         ? roms.find((r) => r.id === editingId)?.capaRef
-        : '';
+        : "";
       let pathRef = editingId
         ? roms.find((r) => r.id === editingId)?.pathRef
-        : '';
+        : "";
 
       if (coverFile)
         capaRef = await uploadFile(
@@ -122,12 +125,12 @@ export default function Page() {
           setRomProgress,
         );
 
-      const method = editingId ? 'PUT' : 'POST';
-      const url = editingId ? `/api/roms/${editingId}` : '/api/roms';
+      const method = editingId ? "PUT" : "POST";
+      const url = editingId ? `/api/roms/${editingId}` : "/api/roms";
 
       const res = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           titulo: title,
           descricao: description,
@@ -140,7 +143,7 @@ export default function Page() {
         }),
       });
 
-      if (!res.ok) throw new Error('Erro ao salvar');
+      if (!res.ok) throw new Error("Erro ao salvar");
       handleClear();
       await fetchRoms();
     } catch (e: any) {
@@ -151,10 +154,10 @@ export default function Page() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm('Deseja excluir este jogo?')) return;
+    if (!confirm("Deseja excluir este jogo?")) return;
     try {
-      const res = await fetch(`/api/roms/${id}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Erro ao excluir');
+      const res = await fetch(`/api/roms/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Erro ao excluir");
       await fetchRoms();
     } catch (e: any) {
       alert(e.message);
@@ -180,7 +183,7 @@ export default function Page() {
           parsed.map((r: any) => ({ name: r.name, type: r.type })),
         );
       } catch {
-        alert('JSON inválido. Esperado um array de ROMs.');
+        alert("JSON inválido. Esperado um array de ROMs.");
         setLoteFile(null);
       }
     };
@@ -195,13 +198,13 @@ export default function Page() {
       const text = await loteFile.text();
       const body = JSON.parse(text);
 
-      const res = await fetch('/api/roms/lote', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/roms/lote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
-      if (!res.ok) throw new Error('Erro ao importar lote');
+      if (!res.ok) throw new Error("Erro ao importar lote");
       const { message } = await res.json();
       alert(message);
       setLoteFile(null);
@@ -214,6 +217,31 @@ export default function Page() {
     }
   }
 
+  async function handleEncurtarTodos() {
+    if (
+      !confirm(
+        "Isso vai encurtar os links de todas as ROMs sem shortUrl. Continuar?",
+      )
+    )
+      return;
+
+    try {
+      setEncurtandoTodos(true);
+      setEncurtarResult(null);
+
+      const res = await fetch("/api/roms/encurtar", { method: "POST" });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error ?? "Erro ao encurtar");
+      setEncurtarResult(data.message);
+      await fetchRoms();
+    } catch (e: any) {
+      setEncurtarResult(`Erro: ${e.message}`);
+    } finally {
+      setEncurtandoTodos(false);
+    }
+  }
+
   return (
     <div className={styles.root}>
       <HeaderLogo />
@@ -223,15 +251,15 @@ export default function Page() {
         <div className={styles.lotePanel}>
           <h2 className={styles.formTitle}>Importar lote (JSON)</h2>
 
-          <label className={styles.loteDropzone} htmlFor='lote-input'>
+          <label className={styles.loteDropzone} htmlFor="lote-input">
             <span className={styles.loteIcon}>📦</span>
             <span className={styles.loteLabel}>
-              {loteFile ? loteFile.name : 'Selecionar arquivo .json'}
+              {loteFile ? loteFile.name : "Selecionar arquivo .json"}
             </span>
             <input
-              id='lote-input'
-              type='file'
-              accept='.json,application/json'
+              id="lote-input"
+              type="file"
+              accept=".json,application/json"
               className={styles.loteInput}
               onChange={handleLoteFileChange}
             />
@@ -240,8 +268,8 @@ export default function Page() {
           {lotePreview && (
             <div className={styles.lotePreview}>
               <p className={styles.lotePreviewCount}>
-                {lotePreview.length} jogo{lotePreview.length !== 1 ? 's' : ''}{' '}
-                encontrado{lotePreview.length !== 1 ? 's' : ''}
+                {lotePreview.length} jogo{lotePreview.length !== 1 ? "s" : ""}{" "}
+                encontrado{lotePreview.length !== 1 ? "s" : ""}
               </p>
               <ul className={styles.loteList}>
                 {lotePreview.slice(0, 5).map((r, i) => (
@@ -266,68 +294,68 @@ export default function Page() {
             onClick={handleLoteImport}
             disabled={!loteFile || loteLoading}
           >
-            {loteLoading ? 'Importando...' : 'Importar lote'}
+            {loteLoading ? "Importando..." : "Importar lote"}
           </button>
         </div>
 
         {/* Formulário */}
         <div className={styles.formPanel}>
           <h2 className={styles.formTitle}>
-            {editingId ? 'Atualizar jogo' : 'Novo jogo'}
+            {editingId ? "Atualizar jogo" : "Novo jogo"}
           </h2>
 
           <div className={styles.formFields}>
             <div className={styles.fieldGroup}>
-              <label className={styles.label} htmlFor='title'>
+              <label className={styles.label} htmlFor="title">
                 Título
               </label>
               <input
-                id='title'
+                id="title"
                 className={styles.input}
-                autoComplete='off'
-                placeholder='Ex: Super Mario World'
+                autoComplete="off"
+                placeholder="Ex: Super Mario World"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
 
             <div className={styles.fieldGroup}>
-              <label className={styles.label} htmlFor='description'>
+              <label className={styles.label} htmlFor="description">
                 Descrição
               </label>
               <input
-                id='description'
+                id="description"
                 className={styles.input}
-                autoComplete='off'
-                placeholder='Breve descrição do jogo'
+                autoComplete="off"
+                placeholder="Breve descrição do jogo"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
 
             <div className={styles.fieldGroup}>
-              <label className={styles.label} htmlFor='price'>
+              <label className={styles.label} htmlFor="price">
                 Preço (R$)
               </label>
               <input
-                id='price'
-                type='number'
-                step='0.01'
-                min='0'
+                id="price"
+                type="number"
+                step="0.01"
+                min="0"
                 className={styles.input}
-                autoComplete='off'
-                placeholder='Ex: 9.90'
+                autoComplete="off"
+                placeholder="Ex: 9.90"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
             </div>
 
             <div className={styles.fieldGroup}>
-              <label className={styles.label} htmlFor='type'>
+              <label className={styles.label} htmlFor="type">
                 Tipo / Plataforma
               </label>
               <select
-                id='type'
+                id="type"
                 className={styles.input}
                 value={type}
                 onChange={(e) => setType(e.target.value as RomType)}
@@ -344,7 +372,7 @@ export default function Page() {
             <div className={styles.checkboxGroup}>
               <label className={styles.checkboxLabel}>
                 <input
-                  type='checkbox'
+                  type="checkbox"
                   className={styles.checkbox}
                   checked={traduzido}
                   onChange={(e) => setTraduzido(e.target.checked)}
@@ -353,7 +381,7 @@ export default function Page() {
               </label>
               <label className={styles.checkboxLabel}>
                 <input
-                  type='checkbox'
+                  type="checkbox"
                   className={styles.checkbox}
                   checked={dublado}
                   onChange={(e) => setDublado(e.target.checked)}
@@ -363,25 +391,25 @@ export default function Page() {
             </div>
 
             <div className={styles.fieldGroup}>
-              <label className={styles.label} htmlFor='cover'>
+              <label className={styles.label} htmlFor="cover">
                 Capa do jogo
               </label>
               <input
-                id='cover'
-                type='file'
-                accept='image/*'
+                id="cover"
+                type="file"
+                accept="image/*"
                 className={styles.fileInput}
                 onChange={(e) => setCoverFile(e.target.files?.[0] ?? null)}
               />
             </div>
 
             <div className={styles.fieldGroup}>
-              <label className={styles.label} htmlFor='rom'>
+              <label className={styles.label} htmlFor="rom">
                 Arquivo do jogo
               </label>
               <input
-                id='rom'
-                type='file'
+                id="rom"
+                type="file"
                 className={styles.fileInput}
                 onChange={(e) => setRomFile(e.target.files?.[0] ?? null)}
               />
@@ -429,10 +457,10 @@ export default function Page() {
               disabled={loading}
             >
               {loading
-                ? 'Salvando...'
+                ? "Salvando..."
                 : editingId
-                  ? 'Atualizar'
-                  : 'Salvar jogo'}
+                  ? "Atualizar"
+                  : "Salvar jogo"}
             </button>
             {editingId && (
               <button className={styles.btnCancel} onClick={handleClear}>
@@ -446,9 +474,22 @@ export default function Page() {
         <div className={styles.listPanel}>
           <div className={styles.listHeader}>
             <h1 className={styles.listTitle}>Jogos</h1>
-            <span className={styles.listCount}>
-              {roms.length} cadastrado{roms.length !== 1 ? 's' : ''}
-            </span>
+            <div className={styles.listHeaderRight}>
+              <span className={styles.listCount}>
+                {roms.length} cadastrado{roms.length !== 1 ? "s" : ""}
+              </span>
+              <button
+                className={styles.btnEncurtar}
+                onClick={handleEncurtarTodos}
+                disabled={encurtandoTodos}
+                title="Gerar shortUrl para todas as ROMs que ainda não têm"
+              >
+                {encurtandoTodos ? "⏳ Encurtando..." : "🔗 Encurtar todos"}
+              </button>
+            </div>
+            {encurtarResult && (
+              <p className={styles.encurtarResult}>{encurtarResult}</p>
+            )}
           </div>
 
           {roms.length === 0 ? (
