@@ -2,10 +2,9 @@
 
 import { FieldValue, Timestamp } from "firebase-admin/firestore";
 
-import { Payment } from "mercadopago";
 import { NextResponse } from "next/server";
 import { adminDb } from "../../../config/firebase-admin";
-import client from "../../../lib/mercadoPago";
+import { MercadoPagoPixService } from "pix_generator";
 
 export async function POST(req: Request) {
   try {
@@ -28,8 +27,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ received: true, test: true });
     }
 
-    const payment = new Payment(client);
-    const result = await payment.get({ id: paymentIdStr });
+    const pixService = new MercadoPagoPixService(process.env.MP_ACCESS_TOKEN!);
+    const result = await pixService.getPaymentById(paymentIdStr);
+
+    // const payment = new Payment(client);
+    // const result = await payment.get({ id: paymentIdStr });
 
     console.log("-----busca de payment: ");
     console.log(result);
