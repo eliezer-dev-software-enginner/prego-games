@@ -242,6 +242,33 @@ export default function Page() {
     }
   }
 
+  const [enviandoTelegram, setEnviandoTelegram] = useState(false);
+  const [telegramResult, setTelegramResult] = useState<string | null>(null);
+
+  async function handleEnviarTelegram() {
+    if (
+      !confirm(
+        "Enviar 3 ROMs aleatórias (com shortUrl) para o canal do Telegram?",
+      )
+    )
+      return;
+
+    try {
+      setEnviandoTelegram(true);
+      setTelegramResult(null);
+
+      const res = await fetch("/api/roms/telegram", { method: "POST" });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error ?? "Erro ao enviar");
+      setTelegramResult(data.message);
+    } catch (e: any) {
+      setTelegramResult(`Erro: ${e.message}`);
+    } finally {
+      setEnviandoTelegram(false);
+    }
+  }
+
   return (
     <div className={styles.root}>
       <HeaderLogo />
@@ -486,9 +513,20 @@ export default function Page() {
               >
                 {encurtandoTodos ? "⏳ Encurtando..." : "🔗 Encurtar todos"}
               </button>
+              <button
+                className={styles.btnTelegram}
+                onClick={handleEnviarTelegram}
+                disabled={enviandoTelegram}
+                title="Enviar 3 ROMs aleatórias para o canal do Telegram"
+              >
+                {enviandoTelegram ? "📤 Enviando..." : "✈️ Postar no Telegram"}
+              </button>
             </div>
             {encurtarResult && (
               <p className={styles.encurtarResult}>{encurtarResult}</p>
+            )}
+            {telegramResult && (
+              <p className={styles.encurtarResult}>{telegramResult}</p>
             )}
           </div>
 
