@@ -3,10 +3,8 @@
 import { adminAuth, adminDb } from "../../config/firebase-admin";
 
 import { Timestamp } from "firebase-admin/firestore";
-import { Payment } from "mercadopago";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import client from "../../lib/mercadoPago";
 import { MercadoPagoPixService } from "pix_generator";
 
 export async function POST(req: Request) {
