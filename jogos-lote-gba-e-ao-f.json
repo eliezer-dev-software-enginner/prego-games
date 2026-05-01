@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Extreme Ghostbusters - Code Ecto-1",
+    "description": "Jogo de ação com progressão por fases onde o jogador controla membros dos Ghostbusters para capturar fantasmas. Utiliza equipamentos especiais como armas de contenção, exigindo estratégia no combate contra diferentes tipos de inimigos e chefes.",
+    "capaUrl": "https://i.ibb.co/KpRKR9LZ/Extreme-Ghostbusters-Code-Ecto-1-gba.webp",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "F-Zero - Maximum Velocity",
+    "description": "Jogo de corrida futurista em alta velocidade com pistas desafiadoras e curvas técnicas. O jogador pilota naves com diferentes atributos, gerencia impulso e energia, e precisa dominar reflexos e controle preciso para vencer campeonatos.",
+    "capaUrl": "https://i.ibb.co/vWzCFbX/F-Zero-Maximum-Velocity-gba.jpg",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Fairly OddParents!, The - Enter the Cleft",
+    "description": "Jogo de ação e plataforma onde Timmy usa desejos mágicos para obter habilidades especiais. O gameplay envolve exploração, combate leve e resolução de puzzles simples enquanto avança por fases temáticas inspiradas no desenho.",
+    "capaUrl": "https://i.ibb.co/gMD05Yk7/Fairly-Odd-Parents-The-Enter-the-Cleft-gba.jpg",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "FIFA Soccer 2004",
+    "description": "Simulador de futebol com partidas completas, modo carreira e gerenciamento de equipes. O jogador controla times reais, executa jogadas, passes e finalizações, com foco em estratégia, posicionamento e progressão em campeonatos.",
+    "capaUrl": "https://i.ibb.co/qMpTbVng/FIFA-Soccer-2004-gba.jpg",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Final Fantasy I & II - Dawn of Souls",
+    "description": "Coletânea de RPGs clássicos por turnos com exploração de mundo, evolução de personagens e narrativa tradicional. O jogador forma uma equipe, gerencia habilidades e equipamentos e enfrenta inimigos em batalhas estratégicas.",
+    "capaUrl": "https://i.ibb.co/gbbvFdB4/Final-Fantasy-I-II-Dawn-of-Souls-gba.webp",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Final Fantasy VI Advance",
+    "description": "RPG por turnos com narrativa profunda e múltiplos personagens jogáveis, cada um com habilidades únicas. O jogo combina exploração, batalhas estratégicas e desenvolvimento de história complexa, incluindo sistemas de magia e progressão avançada.",
+    "capaUrl": "https://i.ibb.co/Tq8sv270/Final-Fantasy-VI-Advance-gba.webp",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Franklin's Great Adventures",
+    "description": "Jogo de aventura leve voltado ao público infantil, com exploração simples, minigames e tarefas educativas. O jogador interage com personagens, resolve pequenos desafios e progride por atividades curtas em diferentes cenários.",
+    "capaUrl": "https://i.ibb.co/n83323XW/Franklin-s-Great-Adventures.jpg",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  }
+]

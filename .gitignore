@@ -41,4 +41,4 @@ yarn-error.log*
 next-env.d.ts
 draft
 coerente-e45b5-firebase-adminsdk-fbsvc-3f766d0c08.json
-firebase.ts
+app/config/coerente-e45b5-firebase-adminsdk-fbsvc-3f766d0c08.json

@@ -1,35 +1,51 @@
 // app/api/auth/login/route.ts
 
-import { adminAuth } from '@/app/config/firebase-admin';
+import { adminAuth, adminDb } from '../../../config/firebase-admin';
+
+import { FieldValue } from 'firebase-admin/firestore';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   const { idToken } = await req.json();
 
-  // verifica se o token é válido antes de criar o cookie
-  await adminAuth.verifyIdToken(idToken);
+  const decoded = await adminAuth.verifyIdToken(idToken);
+
+  // cria o usuário na collection se não existir
+  const userRef = adminDb.collection('apps/prego-games/users').doc(decoded.uid);
+  const userSnap = await userRef.get();
+
+  if (!userSnap.exists) {
+    await userRef.set({
+      uid: decoded.uid,
+      email: decoded.email ?? null,
+      name: decoded.name ?? null,
+      picture: decoded.picture ?? null,
+      packs: [],
+      createdAt: FieldValue.serverTimestamp(),
+    });
+  }
 
   (await cookies()).set('session', idToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 60 * 60, // 1 hora
+    maxAge: 60 * 60,
     path: '/',
   });
 
   return NextResponse.json({ status: 'ok' });
 }
 
-// ANTIGO - COM FREBASE PADRÃO SEM SER O FIREBASE ADMIN
-// export async function POST(req: Request) {
-//   const { idToken } = await req.json();
+/*
 
-//   (await cookies()).set('session', idToken, {
-//     httpOnly: true,
-//     secure: process.env.NODE_ENV === 'production',
-//     maxAge: 60 * 60, // 1 hora (tempo de vida do idToken)
-//     path: '/',
-//   });
+Quando eu for atualizar o pagamento
+import { Timestamp } from 'firebase-admin/firestore';
 
-//   return NextResponse.json({ status: 'ok' });
-// }
+await userRef.update({
+  packs: FieldValue.arrayUnion({
+    packId: 'abc123',
+    purchasedAt: Timestamp.now(),
+  }),
+});
+
+*/
