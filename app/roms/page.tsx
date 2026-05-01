@@ -2,6 +2,7 @@
 'use client';
 
 import { User, onAuthStateChanged } from 'firebase/auth';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
@@ -10,8 +11,8 @@ import { auth } from '../config/firebase';
 import { setSEOMetadata } from '../lib/common';
 import { Rom } from '../types/rom.type';
 import styles from './page.module.css';
+
 // Firebase client-side auth
-import { useRouter } from 'next/navigation';
 
 interface PixData {
   success: boolean;
@@ -31,6 +32,8 @@ export default function Page() {
   const [buying, setBuying] = useState(false);
   const [ownedRomIds, setOwnedRomIds] = useState<string[]>([]);
 
+  const searchParams = useSearchParams();
+
   // Authentication check
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -42,6 +45,25 @@ export default function Page() {
     });
     return unsubscribe;
   }, [router]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    async function init() {
+      await Promise.all([fetchRoms(), fetchOwnedRomIds()]);
+
+      // abre o modal automaticamente se vier da página de detalhe
+      const comprarId = searchParams.get('comprar');
+      if (comprarId) {
+        const res = await fetch('/api/roms');
+        const data: Rom[] = await res.json();
+        const rom = data.find((r) => r.id === comprarId);
+        if (rom) handleSelectRom(rom);
+      }
+    }
+
+    init();
+  }, [user]);
 
   // Fetch owned ROMs for the user
   async function fetchOwnedRomIds() {

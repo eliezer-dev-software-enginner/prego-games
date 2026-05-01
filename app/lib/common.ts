@@ -51,3 +51,10 @@ export function setSEOMetadata({
     meta.setAttribute('content', tag.content);
   });
 }
+
+//const isProd = isProductionMode();
+const isProd = true;
+
+export const pixAccessToken = isProd
+  ? process.env.MP_ACCESS_TOKEN_PROD || ''
+  : process.env.MP_ACCESS_TOKEN_TEST || '';

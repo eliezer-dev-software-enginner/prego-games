@@ -1,50 +1,51 @@
 // app/api/checkout/route.ts
 
-import { adminAuth, adminDb } from "../../config/firebase-admin";
+import { adminAuth, adminDb } from '../../config/firebase-admin';
 
-import { Timestamp } from "firebase-admin/firestore";
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
-import { MercadoPagoPixService } from "pix_generator";
+import { Timestamp } from 'firebase-admin/firestore';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
+import { PixService } from 'pix_generator';
+import { pixAccessToken } from '../../lib/common';
 
 export async function POST(req: Request) {
   // 1. Autenticação via session cookie
-  const session = (await cookies()).get("session");
+  const session = (await cookies()).get('session');
   if (!session)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   let decoded: { uid: string; email?: string; name?: string };
   try {
     decoded = await adminAuth.verifyIdToken(session.value);
   } catch {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   // 2. Valida o corpo da requisição
   const { packId } = await req.json();
   if (!packId)
-    return NextResponse.json({ error: "packId obrigatório" }, { status: 400 });
+    return NextResponse.json({ error: 'packId obrigatório' }, { status: 400 });
 
   // 3. Verifica se o pack existe no Firestore
   const packSnap = await adminDb
-    .collection("apps/prego-games/packs")
+    .collection('apps/prego-games/packs')
     .doc(packId)
     .get();
 
   if (!packSnap.exists)
-    return NextResponse.json({ error: "Pack não encontrado" }, { status: 404 });
+    return NextResponse.json({ error: 'Pack não encontrado' }, { status: 404 });
 
   const packData = packSnap.data();
 
   // 4. Verifica se o usuário já possui o pack
-  const userRef = adminDb.collection("apps/prego-games/users").doc(decoded.uid);
+  const userRef = adminDb.collection('apps/prego-games/users').doc(decoded.uid);
   const userSnap = await userRef.get();
   const userData = userSnap.data();
 
   const alreadyOwned = userData?.packs?.some((p: any) => p.packId === packId);
   if (alreadyOwned)
     return NextResponse.json(
-      { error: "Você já possui este pack" },
+      { error: 'Você já possui este pack' },
       { status: 409 },
     );
 
@@ -69,13 +70,13 @@ export async function POST(req: Request) {
     //   },
     // });
 
-    const pixService = new MercadoPagoPixService(process.env.MP_ACCESS_TOKEN!);
+    const pixService = new PixService(pixAccessToken);
 
     const result = await pixService.createPixPayment({
-      email: decoded.email ?? "comprador@pregogames.com",
-      firstName: decoded.name?.split(" ")[0] ?? "Comprador",
-      lastName: decoded.name?.split(" ").slice(1).join(" ") ?? "",
-      description: packData?.titulo ?? "Pack de jogos",
+      email: decoded.email ?? 'comprador@pregogames.com',
+      firstName: decoded.name?.split(' ')[0] ?? 'Comprador',
+      lastName: decoded.name?.split(' ').slice(1).join(' ') ?? '',
+      description: packData?.titulo ?? 'Pack de jogos',
       value: packData?.preco ?? 1,
       externalRef: `${decoded.uid}_${packId}`,
       metadata: {
@@ -90,10 +91,10 @@ export async function POST(req: Request) {
 
     const { paymentId, status, qrCode, qrCodeBase64 } = result.data;
 
-    console.log("pagamento gerado");
+    console.log('pagamento gerado');
 
     // 6. Salva o pagamento pendente no Firestore
-    await adminDb.collection("apps/prego-games/payments").doc(paymentId).set({
+    await adminDb.collection('apps/prego-games/payments').doc(paymentId).set({
       userId: decoded.uid,
       packId,
       status,
@@ -101,7 +102,7 @@ export async function POST(req: Request) {
       updatedAt: Timestamp.now(),
     });
 
-    console.log("pagamento salvo em apps/prego-games/payments");
+    console.log('pagamento salvo em apps/prego-games/payments');
 
     // 7. Retorna os dados do PIX para o frontend exibir
     return NextResponse.json({
@@ -112,9 +113,9 @@ export async function POST(req: Request) {
       qrCode,
     });
   } catch (error: any) {
-    console.error("Erro ao criar pagamento:", error?.message || error);
+    console.error('Erro ao criar pagamento:', error?.message || error);
     return NextResponse.json(
-      { error: "Erro ao criar pagamento", message: error?.message },
+      { error: 'Erro ao criar pagamento', message: error?.message },
       { status: 500 },
     );
   }

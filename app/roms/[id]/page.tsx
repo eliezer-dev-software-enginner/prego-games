@@ -1,14 +1,14 @@
-"use client";
+'use client';
 // app/roms/[id]/page.tsx
 
-import { User, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { User, onAuthStateChanged } from 'firebase/auth';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { auth } from "../../config/firebase";
-import { Rom } from "../../types/rom.type";
-import styles from "./page.module.css";
+import Link from 'next/link';
+import { auth } from '../../config/firebase';
+import { Rom } from '../../types/rom.type';
+import styles from './page.module.css';
 
 export default function Page() {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +23,7 @@ export default function Page() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       if (!u) {
-        router.push("/auth/login");
+        router.push('/auth/login');
         return;
       }
       setUser(u);
@@ -39,7 +39,8 @@ export default function Page() {
   async function fetchRom() {
     const res = await fetch(`/api/roms/${id}`);
     if (!res.ok) {
-      router.push("/roms");
+      router.push('/roms');
+      //router.push(`/roms?comprar=${id}`);
       return;
     }
     const data = await res.json();
@@ -47,7 +48,7 @@ export default function Page() {
   }
 
   async function fetchOwned() {
-    const res = await fetch("/api/user/roms");
+    const res = await fetch('/api/user/roms');
     const data = await res.json();
     const ids = data.map((r: { romId: string }) => r.romId);
     setOwned(ids.includes(id));
@@ -58,12 +59,12 @@ export default function Page() {
     setDownloading(true);
     try {
       const res = await fetch(`/api/download/rom?id=${id}`);
-      if (!res.ok) throw new Error("Erro ao baixar");
+      if (!res.ok) throw new Error('Erro ao baixar');
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = url;
-      a.download = rom?.titulo ?? "rom";
+      a.download = rom?.titulo ?? 'rom';
       a.click();
       URL.revokeObjectURL(url);
     } catch (e: any) {
@@ -86,19 +87,19 @@ export default function Page() {
   if (!rom) return null;
 
   const idioma = rom.dublado
-    ? "Dublado"
+    ? 'Dublado'
     : rom.traduzido
-      ? "Traduzido PT-BR"
-      : "Original";
+      ? 'Traduzido PT-BR'
+      : 'Original';
 
   return (
     <div className={styles.root}>
       {/* Header */}
       <header className={styles.header}>
-        <Link href="/roms" className={styles.back}>
+        <Link href='/roms' className={styles.back}>
           ← Voltar
         </Link>
-        <Link href="/home" className={styles.logo}>
+        <Link href='/home' className={styles.logo}>
           Prego<span className={styles.logoAccent}>.</span>Games
         </Link>
         <div className={styles.headerSpacer} />
@@ -205,7 +206,7 @@ export default function Page() {
                 </p>
                 <button
                   className={styles.btnBuy}
-                  onClick={() => router.push("/roms")}
+                  onClick={() => router.push(`/roms?comprar=${id}`)}
                 >
                   Comprar por R$ {rom.preco?.toFixed(2)}
                 </button>
