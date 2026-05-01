@@ -1,0 +1,119 @@
+.card {
+  background: #111;
+  border: 1px solid #1a1a1a;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.25s,
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: #2a2a2a;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.cardCover {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.cardCoverPlaceholder {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, #141414, #1e1e1e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+.cardBody {
+  padding: 20px;
+}
+
+.cardTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  margin: 0 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardDesc {
+  font-size: 14px;
+  color: #7a7368;
+  line-height: 1.5;
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #1a1a1a;
+  font-size: 13px;
+  color: #504a42;
+}
+
+.cardPrice {
+  font-weight: 600;
+  color: #ff5a00;
+}
+
+.cardBadge {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(255, 90, 0, 0.1);
+  color: #ff5a00;
+}
+
+.cardBadgeOwned {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(0, 200, 100, 0.1);
+  color: #00c864;
+}
+
+.btnBuy {
+  background: #ff5a00;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.btnBuy:hover {
+  background: #e04e00;
+  transform: translateY(-1px);
+}

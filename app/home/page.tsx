@@ -5,13 +5,14 @@ import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import PixModal from '../components/PixModal/PixModal';
-import { auth } from '../config/firebase';
-import { setSEOMetadata } from '../lib/common';
-import modalStyles from '../roms/page.module.css';
 import { Rom } from '../types/rom.type';
+import RomCard from '../components/RomCard';
+import { auth } from '../config/firebase';
+import modalStyles from '../roms/page.module.css';
+import { setSEOMetadata } from '../lib/common';
 import styles from './page.module.css';
+import { useRouter } from 'next/navigation';
 
 interface Pack {
   id: string;
@@ -330,36 +331,7 @@ export default function Page() {
 
           <div className={styles.grid}>
             {availableRoms.slice(0, 4).map((rom) => (
-              <div key={rom.id} className={styles.card}>
-                {rom.capaRef ? (
-                  <img
-                    src={rom.capaRef}
-                    alt={rom.titulo}
-                    className={styles.cardCover}
-                  />
-                ) : (
-                  <div className={styles.cardCoverPlaceholder}>🕹️</div>
-                )}
-                <div className={styles.cardBody}>
-                  <h3 className={styles.cardTitle}>{rom.titulo}</h3>
-                  <p className={styles.cardDesc}>{rom.descricao}</p>
-                  <div className={styles.cardMeta}>
-                    <span className={styles.cardPrice}>
-                      R$ {rom.preco?.toFixed(2)}
-                    </span>
-                    <span className={styles.cardBadge}>Avulso</span>
-                  </div>
-                  <button
-                    className={styles.btnBuy}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSelectItem('rom', rom);
-                    }}
-                  >
-                    Comprar
-                  </button>
-                </div>
-              </div>
+              <RomCard rom={rom} onBuy={(r) => handleSelectItem('rom', r)} />
             ))}
           </div>
         </section>
