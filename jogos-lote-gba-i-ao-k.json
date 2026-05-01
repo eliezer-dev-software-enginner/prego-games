@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Ice Nine",
+    "description": "Jogo de ação com foco em stealth e infiltração, onde o jogador executa missões utilizando armas, gadgets e movimentação estratégica. É necessário evitar detecção, eliminar inimigos de forma tática e cumprir objetivos em ambientes hostis com progressão por fases.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Iridion II",
+    "description": "Shoot 'em up com nave em fases verticais e horizontais, focado em ação intensa e precisão. O jogador enfrenta ondas de inimigos, utiliza diferentes tipos de armas e encara chefes desafiadores, exigindo reflexos rápidos e controle preciso.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "James Pond - Codename Robocod",
+    "description": "Jogo de plataforma com fases temáticas e foco em exploração e coleta. O personagem possui habilidades elásticas que permitem alcançar áreas elevadas, resolver desafios e enfrentar inimigos em níveis variados com progressão linear.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Justice League - Injustice for All",
+    "description": "Jogo de ação com elementos de beat 'em up e progressão lateral, onde o jogador controla diferentes heróis da Liga da Justiça. Cada personagem possui habilidades únicas, sendo necessário alternar entre eles para superar inimigos, puzzles simples e desafios nas fases.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Kingdom Hearts - Chain of Memories",
+    "description": "Action RPG que combina combate em tempo real com sistema de cartas para ações e habilidades. O jogador explora áreas, monta decks estratégicos e enfrenta inimigos enquanto avança pela narrativa, exigindo planejamento tático e gestão de recursos durante as batalhas.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Kirby & the Amazing Mirror",
+    "description": "Jogo de plataforma estilo metroidvania com exploração não linear e mapa interconectado. Kirby pode copiar habilidades dos inimigos, acessar novas áreas e resolver desafios, com foco em exploração, mobilidade e variedade de poderes.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Koala Brothers - Outback Adventures",
+    "description": "Jogo de aventura leve voltado ao público infantil, com exploração simples, resolução de tarefas e minigames. O jogador interage com personagens e completa objetivos em cenários variados, com foco educativo e progressão guiada.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Harry Potter and the Chamber of Secrets",
+    "description": "RPG de aventura com exploração em Hogwarts, uso de magias e resolução de puzzles. O jogador evolui habilidades, interage com personagens e participa de combates por turnos enquanto avança pela história baseada no segundo livro/filme.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Harry Potter and the Order of the Phoenix",
+    "description": "Jogo de ação e aventura com combate em tempo real utilizando magias. O jogador explora ambientes, cumpre missões e enfrenta inimigos enquanto acompanha eventos da narrativa, com foco em progressão linear e desafios variados.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Harry Potter and the Sorcerer's Stone",
+    "description": "RPG com combate por turnos, exploração e progressão narrativa. O jogador aprende novas magias, coleta itens e enfrenta inimigos em batalhas estratégicas enquanto segue a história do primeiro ano em Hogwarts.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Harvest Moon - Friends of Mineral Town",
+    "description": "Simulador de fazenda com foco em gerenciamento de recursos, cultivo, criação de animais e interação social. O jogador desenvolve sua fazenda ao longo das estações, constrói relacionamentos com moradores e participa de eventos da cidade.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Hugo - Bukkazoom!",
+    "description": "Jogo de corrida arcade com pistas rápidas e cheias de obstáculos. O jogador participa de competições contra o tempo e adversários, exigindo reflexos rápidos e domínio do controle para vencer.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Hugo - The Evil Mirror Advance",
+    "description": "Jogo de plataforma com exploração, puzzles simples e combate leve. O jogador atravessa fases variadas resolvendo desafios e enfrentando inimigos enquanto progride pela história.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Ice Nine",
+    "description": "Jogo de ação com foco em stealth e infiltração. O jogador cumpre missões utilizando armas, gadgets e estratégia para eliminar inimigos e evitar ser detectado em ambientes hostis.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Iridion II",
+    "description": "Shoot 'em up com nave em visão vertical e horizontal, focado em ação intensa, inimigos em ondas e chefes desafiadores. O jogador utiliza diferentes armas e precisa de reflexos rápidos para sobreviver às fases.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  }
+]

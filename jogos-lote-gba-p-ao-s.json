@@ -1,0 +1,450 @@
+[
+  {
+    "name": "Pirates of the Caribbean - The Curse of the Black Pearl",
+    "description": "Jogo de ação e aventura com combate em tempo real e progressão por fases. O jogador enfrenta inimigos, utiliza espadas e habilidades especiais enquanto avança por eventos inspirados no filme.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Planet of the Apes",
+    "description": "Ação e plataforma com combate e exploração em ambientes hostis. O jogador enfrenta inimigos, resolve desafios e progride por fases com foco em sobrevivência.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon - AshGray 4.5.3",
+    "description": "Hack de Pokémon baseado no anime, seguindo a jornada de Ash. Mantém combate por turnos, captura de criaturas e eventos baseados na série, com progressão narrativa guiada.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon - Emerald Version",
+    "description": "RPG por turnos com captura, treinamento e batalhas entre criaturas. O jogador explora o mundo, coleta Pokémon e enfrenta ginásios e desafios para se tornar campeão.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon - Fire Red Version (Rev 1)",
+    "description": "Remake de RPG por turnos com exploração, captura de Pokémon e batalhas estratégicas. O jogador progride por ginásios e desafios em uma jornada clássica.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon - Leaf Green Version",
+    "description": "RPG por turnos com foco em captura, evolução e batalhas estratégicas. O jogador explora regiões, enfrenta líderes e constrói sua equipe.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon - New Hoenn",
+    "description": "Hack de Pokémon com alterações na região Hoenn, incluindo novos eventos, desafios e possíveis mudanças em mecânicas clássicas.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon - Ruby Version (Rev 2)",
+    "description": "RPG por turnos com exploração, captura e batalhas estratégicas. O jogador enfrenta ginásios e organizações enquanto desenvolve sua equipe.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon - Sapphire Version (Rev 2)",
+    "description": "RPG com combate por turnos, captura de criaturas e progressão por ginásios. O jogador explora o mundo e enfrenta desafios estratégicos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon - Water Blue",
+    "description": "Hack de Pokémon com modificações em história, Pokémon disponíveis e desafios, mantendo o sistema clássico de batalhas por turnos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Dark Fire",
+    "description": "Hack de Pokémon com narrativa modificada, novos desafios e possíveis alterações em mapas e criaturas, mantendo combate por turnos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Dark Pearl",
+    "description": "Hack de Pokémon com mudanças na história e mecânicas, oferecendo novos desafios dentro do sistema clássico de captura e batalha.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Light Platinum (BR)",
+    "description": "Hack popular com nova região, história expandida e grande variedade de Pokémon. Mantém combate por turnos com melhorias e novos eventos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Lunares BR",
+    "description": "Hack de Pokémon com alterações em história e conteúdo, incluindo novos desafios e progressão baseada no sistema clássico.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon My Ass",
+    "description": "Hack de Pokémon com abordagem humorística e alterações na narrativa, mantendo mecânicas clássicas de captura e batalha.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Mystery Dungeon - Red Rescue Team",
+    "description": "RPG com exploração de dungeons geradas proceduralmente. O jogador controla um Pokémon, forma equipe e participa de missões com combate estratégico em turnos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Omega Ruby v1.8",
+    "description": "Hack inspirado em versões modernas, trazendo novos conteúdos, Pokémon e ajustes em mecânicas dentro da base do GBA.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Resolute Version",
+    "description": "Hack com nova história, regiões adicionais e maior variedade de Pokémon, mantendo combate por turnos e progressão clássica.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Ribeirao Pires",
+    "description": "Hack com ambientação personalizada e conteúdo adaptado, mantendo mecânicas tradicionais de captura e batalha.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Shadow Force",
+    "description": "Hack com alterações na narrativa, novos desafios e possíveis mudanças em Pokémon e mapas, mantendo sistema clássico.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Stone Dragon",
+    "description": "Hack com foco em novos conteúdos, criaturas e desafios, mantendo mecânicas de RPG por turnos tradicionais.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokemon Volcano",
+    "description": "Hack com temática diferenciada, incluindo novas áreas e desafios, mantendo o sistema clássico de batalha e captura.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokmon Blue Stars 2",
+    "description": "Hack com história modificada e novos conteúdos, mantendo mecânicas tradicionais de RPG por turnos e captura.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pokmon Legendary",
+    "description": "Hack focado em Pokémon lendários, com alterações na história e desafios, mantendo combate por turnos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Prince of Persia - The Sands of Time",
+    "description": "Ação e plataforma com foco em acrobacias, combate e resolução de puzzles. O jogador utiliza movimentos ágeis e habilidades especiais para avançar pelas fases.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Princess Natasha - Student, Secret Agent, Princess",
+    "description": "Jogo de ação e aventura com elementos de espionagem, combate e puzzles. O jogador alterna entre identidade escolar e agente secreta para cumprir missões.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Pro Beach Soccer",
+    "description": "Jogo de futebol de praia com partidas rápidas, foco em habilidade, passes e finalizações em ritmo arcade.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "R-Type III - The Third Lightning",
+    "description": "Shoot 'em up com nave em deslocamento lateral, enfrentando ondas de inimigos e chefes. Exige reflexos rápidos e uso estratégico de armas.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Ratatouille",
+    "description": "Ação e aventura com exploração, minigames e desafios baseados no filme. O jogador completa tarefas e supera obstáculos em fases variadas.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Rayman 3",
+    "description": "Plataforma com exploração, combate leve e coleta de itens. O jogador atravessa fases com desafios variados e foco em progressão.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Rayman Advance",
+    "description": "Plataforma clássico com fases desafiadoras, precisão nos saltos e coleta de itens. Foco em habilidade e progressão linear.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Robot Wars - Advanced Destruction",
+    "description": "Jogo de combate entre robôs com foco em destruição e estratégia. O jogador participa de batalhas utilizando diferentes armas e táticas.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Robotech - The Macross Saga",
+    "description": "Jogo de ação com combate aéreo e terrestre, baseado na série. O jogador pilota mechas e enfrenta inimigos em fases variadas.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Rocket Power - Dream Scheme",
+    "description": "Jogo esportivo com skate e atividades radicais, incluindo desafios e minigames baseados na série.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Samurai Jack - The Amulet of Time",
+    "description": "Ação e aventura com combate e exploração. O jogador enfrenta inimigos, utiliza habilidades e avança por fases inspiradas na série.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Scooby-Doo 2 - Monsters Unleashed",
+    "description": "Aventura com exploração, puzzles e coleta de pistas. O jogador resolve mistérios enquanto evita inimigos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Shaman King - Master of Spirits 2",
+    "description": "Metroidvania com exploração, combate e uso de espíritos para habilidades. O jogador desbloqueia áreas e evolui poderes.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Shaman King - Master of Spirits",
+    "description": "Ação e exploração estilo metroidvania com combate e habilidades baseadas em espíritos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Shining Force - Resurrection of the Dark Dragon",
+    "description": "RPG tático com batalhas em grid, gestão de equipe e progressão por missões estratégicas.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Shining Soul II",
+    "description": "Action RPG com exploração, combate em tempo real e cooperação. O jogador evolui personagens e habilidades.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Shining Soul",
+    "description": "Action RPG com combate, exploração de dungeons e evolução de personagens.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Sim City 2000",
+    "description": "Simulador de construção de cidades com gerenciamento de recursos, infraestrutura e crescimento urbano.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Spider-Man - Mysterio's Menace",
+    "description": "Ação e plataforma com combate, uso de habilidades do Homem-Aranha e progressão por fases.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Spider-Man 2",
+    "description": "Ação e aventura com combate, exploração e uso de habilidades do herói em missões baseadas no filme.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Spider-Man 3",
+    "description": "Ação com combate e progressão por fases, incluindo uso de habilidades especiais e enfrentamento de inimigos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "SpongeBob and Friends - Attack of the Toybots",
+    "description": "Ação e aventura com múltiplos personagens, combate e resolução de puzzles em fases variadas.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "SpongeBob SquarePants - SuperSponge",
+    "description": "Plataforma com coleta de itens, exploração e desafios de precisão em fases temáticas.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Spyro Orange - The Cortex Conspiracy",
+    "description": "Jogo focado em minigames variados, com desafios curtos de ação, corrida e puzzles leves.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Star Wars - Episode II - Attack of the Clones",
+    "description": "Ação com combate e missões baseadas no filme, incluindo uso de armas e progressão por objetivos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Star Wars - Episode III - Revenge of the Sith",
+    "description": "Ação com combate em tempo real utilizando sabres de luz e habilidades especiais.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Strawberry Shortcake - Ice Cream Island - Riding Camp",
+    "description": "Jogo infantil com minigames, atividades simples e progressão por tarefas em ambientes coloridos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Super Bubble Pop",
+    "description": "Puzzle musical com estourar bolhas em ritmo, combinando ação simples e reflexos.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Super Ghouls'n Ghosts",
+    "description": "Plataforma de ação com alta dificuldade, combate e progressão por fases desafiadoras.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Super Mario Advance 2 - Super Mario World",
+    "description": "Plataforma clássico com exploração de fases, coleta de itens e progressão não linear em mapa.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Super Mario Advance",
+    "description": "Plataforma com fases variadas, personagens distintos e foco em precisão e progressão linear.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  },
+  {
+    "name": "Super Robot Taisen - Original Generation 2",
+    "description": "RPG tático com batalhas em grid envolvendo mechas, gestão de equipe e progressão estratégica por missões.",
+    "capaUrl": "",
+    "traduzido": true,
+    "type": "GBA",
+    "dublado": false
+  }
+]

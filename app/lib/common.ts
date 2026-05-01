@@ -52,8 +52,8 @@ export function setSEOMetadata({
   });
 }
 
-//const isProd = isProductionMode();
-const isProd = true;
+const isProd = isProductionMode();
+//const isProd = true;
 
 export const pixAccessToken = isProd
   ? process.env.MP_ACCESS_TOKEN_PROD || ''
