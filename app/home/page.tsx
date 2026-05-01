@@ -331,7 +331,11 @@ export default function Page() {
 
           <div className={styles.grid}>
             {availableRoms.slice(0, 4).map((rom) => (
-              <RomCard rom={rom} onBuy={(r) => handleSelectItem('rom', r)} />
+              <RomCard
+                key={rom.id}
+                rom={rom}
+                onBuy={(r) => handleSelectItem('rom', r)}
+              />
             ))}
           </div>
         </section>
