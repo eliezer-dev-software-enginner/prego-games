@@ -42,7 +42,7 @@ export default function Page() {
       if (user) {
         setUser(user);
       } else {
-        router.push('/auth/login');
+        router.push('/auth');
       }
     });
     return unsubscribe;

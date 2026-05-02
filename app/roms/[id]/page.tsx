@@ -2,12 +2,12 @@
 // app/roms/[id]/page.tsx
 
 import { User, onAuthStateChanged } from 'firebase/auth';
-import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 
 import Link from 'next/link';
-import { auth } from '../../config/firebase';
 import { Rom } from '../../types/rom.type';
+import { auth } from '../../config/firebase';
 import styles from './page.module.css';
 
 export default function Page() {
@@ -23,7 +23,8 @@ export default function Page() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       if (!u) {
-        router.push('/auth/login');
+        //router.push('/auth');
+        router.push(`/auth?returnUrl=/roms/${id}`);
         return;
       }
       setUser(u);
