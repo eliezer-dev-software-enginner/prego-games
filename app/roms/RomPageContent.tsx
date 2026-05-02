@@ -1,4 +1,4 @@
-// app/roms/page.tsx
+// app/roms/RomPageContent.tsx
 'use client';
 
 export const dynamic = 'force-dynamic';
@@ -33,6 +33,8 @@ export default function Page() {
   const [pixData, setPixData] = useState<PixData | null>(null);
   const [buying, setBuying] = useState(false);
   const [ownedRomIds, setOwnedRomIds] = useState<string[]>([]);
+
+  const [loadingRoms, setLoadingRoms] = useState(true);
 
   const searchParams = useSearchParams();
 
@@ -87,6 +89,8 @@ export default function Page() {
       setRoms(data);
     } catch (error) {
       console.error('Error fetching ROMs:', error);
+    } finally {
+      setLoadingRoms(false); // <-- adiciona isso
     }
   }
 
@@ -172,7 +176,12 @@ export default function Page() {
       </div>
 
       <div className={styles.container}>
-        {roms.length === 0 ? (
+        {loadingRoms ? (
+          <div className={styles.empty}>
+            <div className={styles.emptyIcon}>⏳</div>
+            <p className={styles.emptyText}>Carregando jogos...</p>
+          </div>
+        ) : roms.length === 0 ? (
           <div className={styles.empty}>
             <div className={styles.emptyIcon}>🕹️</div>
             <p className={styles.emptyText}>

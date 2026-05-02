@@ -1,4 +1,4 @@
-// app/roms/RomPageContent.tsx
+// app/roms/page.tsx
 
 import RomPageContent from './RomPageContent';
 import { Suspense } from 'react';
